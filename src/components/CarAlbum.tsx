@@ -1,38 +1,31 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
-import {
-  Fade,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
-import Grid from "@mui/material/Grid";
-import { CardCar } from "./CardCar";
-import Container from "@mui/material/Container";
-import { CarStatus, ICar } from "../utils/interfaces";
-import Box from "@mui/material/Box";
-import { ChartCars } from "./ChartCars";
+import React, { FC, Fragment, useEffect, useState } from 'react'
+import { Fade, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import { CarCard } from './CarCard'
+import Container from '@mui/material/Container'
+import { CarStatus, ICar } from '../utils/interfaces'
+import Box from '@mui/material/Box'
+import { ChartCars } from './ChartCars'
 
 export const CarAlbum: FC<{
-  loading: boolean;
-  cars: ICar[];
+  loading: boolean
+  cars: ICar[]
 }> = ({ loading, cars }) => {
-  const [statusFilter, setStatusFilter] = useState(0);
+  const [statusFilter, setStatusFilter] = useState(0)
 
-  const [fadeLoader, setFadeLoader] = useState(true);
-  const [filterCar, setFilterCar] = useState<ICar[]>([]);
+  const [fadeLoader, setFadeLoader] = useState(true)
+  const [filterCar, setFilterCar] = useState<ICar[]>([])
   const handleChange = (event: SelectChangeEvent<number>) => {
-    setStatusFilter(event.target.value as number);
-    console.log(event.target.value);
-  };
+    setStatusFilter(event.target.value as number)
+    console.log(event.target.value)
+  }
 
   useEffect(() => {
-    setFilterCar(cars);
-  }, [cars]);
+    setFilterCar(cars)
+  }, [cars])
   useEffect(() => {
     if (statusFilter === 0) {
-      setFilterCar(cars);
+      setFilterCar(cars)
     } else {
       setFilterCar(
         cars.filter((value) => {
@@ -42,44 +35,40 @@ export const CarAlbum: FC<{
             (statusFilter === 3 && value.status === CarStatus.transport) ||
             (statusFilter === 4 && value.status === CarStatus.repair) ||
             (statusFilter === 5 && value.status === CarStatus.done)
-          );
-        })
-      );
+          )
+        }),
+      )
     }
-  }, [statusFilter]);
+  }, [statusFilter])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setFadeLoader((prev) => !prev);
-    }, 500);
-    return () => clearInterval(intervalId);
-  }, []);
+      setFadeLoader((prev) => !prev)
+    }, 500)
+    return () => clearInterval(intervalId)
+  }, [])
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Fade in={fadeLoader}>
-          <Box
-            component={"img"}
-            src="/assets/42.png"
-            sx={{ m: 2, height: 40 }}
-          />
+          <Box component={'img'} src='/assets/42.png' sx={{ m: 2, height: 40 }} />
         </Fade>
       </Box>
-    );
+    )
   }
 
   return (
     <Fragment>
       <ChartCars cars={cars} />
-      <Container sx={{ py: 2 }} maxWidth="lg">
+      <Container sx={{ py: 2 }} maxWidth='lg'>
         <FormControl fullWidth sx={{ py: 2 }}>
-          <InputLabel id="status-select-label">Показати зі статусом</InputLabel>
+          <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
           <Select
-            labelId="status-select-label"
-            id="status-select"
+            labelId='status-select-label'
+            id='status-select'
             value={statusFilter}
-            label="Age"
+            label='Age'
             onChange={handleChange}
           >
             <MenuItem value={0}>Всі</MenuItem>
@@ -92,10 +81,10 @@ export const CarAlbum: FC<{
         </FormControl>
         <Grid container spacing={2}>
           {filterCar.map((car) => (
-            <CardCar key={car.number} car={car} />
+            <CarCard key={car.number} car={car} />
           ))}
         </Grid>
       </Container>
     </Fragment>
-  );
-};
+  )
+}

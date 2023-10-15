@@ -9,7 +9,7 @@ import { StatusColor } from '../utils/utils'
 import { useParams } from 'react-router-dom'
 import carAPI from '../http/carAPI'
 import config from '../utils/config'
-import CardSponsor from '../components/CardSponsor'
+import SponsorCard from '../components/SponsorCard'
 
 export const CarInfo = () => {
   const [name, setName] = useState('')
@@ -149,7 +149,7 @@ export const CarInfo = () => {
                 <Typography variant='h5'> Спонсори:</Typography>
               </Grid>
               {sponsors.map((el, index) => {
-                return <CardSponsor sponsorId={el} key={index} />
+                return <SponsorCard sponsorId={el} key={index} />
               })}
             </Grid>
           </CardContent>

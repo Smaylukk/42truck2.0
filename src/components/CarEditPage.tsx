@@ -31,6 +31,7 @@ import config from '../utils/config'
 const CarEditPage = () => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
+  const [numberSort, setNumberSort] = useState(0)
   const [militaryBase, setMilitaryBase] = useState('')
   const [carName, setCarName] = useState('')
   const [status, setStatus] = useState<CarStatus>(CarStatus.find)
@@ -66,6 +67,7 @@ const CarEditPage = () => {
         setName(data.name)
         setMilitaryBase(data.militaryBase || '')
         setNumber(data.number)
+        setNumberSort(data.numberSort)
         setCarName(data.carName)
         setStatus(data.status)
         setAddEquip(data.addEquip)
@@ -123,6 +125,7 @@ const CarEditPage = () => {
       name,
       militaryBase,
       number,
+      numberSort,
       carName,
       status,
       addEquip,
@@ -199,6 +202,16 @@ const CarEditPage = () => {
               control={<Checkbox checked={active} onChange={(e) => setActive(e.target.checked)} />}
             />
           </Grid>
+          <Grid item xs={12} sm={2}>
+            <TextField
+              label='Номер по порядку'
+              value={numberSort}
+              type={'number'}
+              onChange={(e) => setNumberSort(+e.target.value)}
+              fullWidth
+              required
+            />
+          </Grid>
           <Grid item xs={12} sm={3}>
             <TextField
               label='Номер авто'
@@ -208,7 +221,7 @@ const CarEditPage = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <TextField
               label='Марка'
               value={name}
@@ -217,7 +230,7 @@ const CarEditPage = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <TextField
               label='Статус'
               value={status}

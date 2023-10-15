@@ -24,6 +24,7 @@ export interface ICarDocument {
   id: string
   name: string
   number: string
+  numberSort: number
   militaryBase: string
   carName: string
   amountTires: number
@@ -38,20 +39,22 @@ export interface ICarDocument {
 }
 export interface ICar {
   id: string
-  number: string | null
-  militaryBase: string | null
-  picture: string | null
-  name: string | null
-  amountRepair: number | null
-  amountTires: number | null
-  amountDyeing: number | null
-  addEquip: string | null
-  status: CarStatus | null
-  carName: string | null
-  description: string | null
+  number: string
+  numberSort: number
+  militaryBase: string
+  picture: string
+  name: string
+  amountRepair: number
+  amountTires: number
+  amountDyeing: number
+  addEquip: string
+  status: CarStatus
+  carName: string
+  description: string
 }
 export interface ICarCreateUpdate {
   number: string
+  numberSort: number
   militaryBase: string
   name: string
   amountRepair: number

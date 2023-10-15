@@ -12,7 +12,7 @@ interface IPropsCardSponsor {
   sponsorId: string
 }
 
-export const CardSponsor: React.FC<IPropsCardSponsor> = ({ sponsorId }) => {
+export const SponsorCard: React.FC<IPropsCardSponsor> = ({ sponsorId }) => {
   const [imageUrl, setImageUrl] = useState('')
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
@@ -56,4 +56,4 @@ export const CardSponsor: React.FC<IPropsCardSponsor> = ({ sponsorId }) => {
   )
 }
 
-export default CardSponsor
+export default SponsorCard

@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack'
 import { CAR_ROUTE } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 
-export const CardCar: FC<{ car: ICar }> = ({ car }) => {
+export const CarCard: FC<{ car: ICar }> = ({ car }) => {
   const navigate = useNavigate()
 
   return (

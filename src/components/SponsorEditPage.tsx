@@ -72,7 +72,7 @@ const SponsorEditPage = () => {
     await saveSponsor(sponsorId, data, navigate, handleCloseDialog)
   }
   const handleDeleteSponsor = async () => {
-    await deleteSponsor(sponsorId, navigate, handleCloseDialog) // Закрити діалог після видалення
+    await deleteSponsor(sponsorId, navigate, handleCloseDialog)
   }
 
   return (
