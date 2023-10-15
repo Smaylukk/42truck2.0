@@ -193,13 +193,13 @@ const CarEditPage = () => {
             alignItems: 'flex-start',
           }}
         >
-          <Grid item xs={1}>
+          <Grid item xs={12} sm={1}>
             <FormControlLabel
               label='Активна'
               control={<Checkbox checked={active} onChange={(e) => setActive(e.target.checked)} />}
             />
           </Grid>
-          <Grid item xs={11} sm={3}>
+          <Grid item xs={12} sm={3}>
             <TextField
               label='Номер авто'
               value={number}

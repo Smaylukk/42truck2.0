@@ -99,7 +99,6 @@ const UserEditPage = () => {
             <TextField
               label='Пароль'
               value={password}
-              type={'password'}
               onChange={(e) => setPassword(e.target.value)}
               fullWidth
             />
