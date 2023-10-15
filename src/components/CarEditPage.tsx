@@ -40,7 +40,7 @@ const CarEditPage = () => {
   const [amountRepair, setAmountRepair] = useState(0)
   const [sponsors, setSponsors] = useState<string[]>([])
   const [pictures, setPictures] = useState<string[]>([])
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(true)
   const [description, setDescription] = useState('')
   const [idCar, setIdCar] = useState<string | null>(null)
   const [saveOpen, setSaveOpen] = useState(false)
@@ -193,7 +193,13 @@ const CarEditPage = () => {
             alignItems: 'flex-start',
           }}
         >
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={1}>
+            <FormControlLabel
+              label='Активна'
+              control={<Checkbox checked={active} onChange={(e) => setActive(e.target.checked)} />}
+            />
+          </Grid>
+          <Grid item xs={11} sm={3}>
             <TextField
               label='Номер авто'
               value={number}
@@ -202,21 +208,13 @@ const CarEditPage = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               label='Марка'
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              label='Військова частина'
-              value={militaryBase}
-              fullWidth
-              onChange={(e) => setMilitaryBase(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -234,7 +232,15 @@ const CarEditPage = () => {
               <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Військова частина'
+              value={militaryBase}
+              fullWidth
+              onChange={(e) => setMilitaryBase(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
             <TextField
               label='Назва машини'
               value={carName}
@@ -269,19 +275,13 @@ const CarEditPage = () => {
               onChange={(e) => setAmountDyeing(+e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={11}>
+          <Grid item xs={12}>
             <TextField
               label='Додаткове обладнання'
               value={addEquip}
               fullWidth
               multiline
               onChange={(e) => setAddEquip(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={1}>
-            <FormControlLabel
-              label='Активна'
-              control={<Checkbox checked={active} onChange={(e) => setActive(e.target.checked)} />}
             />
           </Grid>
           <Grid item xs={12}>

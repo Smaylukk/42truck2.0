@@ -6,6 +6,7 @@ import { ISponsorDocument } from '../utils/interfaces'
 import Box from '@mui/material/Box'
 import sponsorAPI from '../http/sponsorAPI'
 import CardSponsor from '../components/CardSponsor'
+import Typography from '@mui/material/Typography'
 
 export const Sponsors = () => {
   const [loading, setLoading] = useState(true)
@@ -37,6 +38,9 @@ export const Sponsors = () => {
 
   return (
     <Container sx={{ py: 2, mt: 8 }} maxWidth='lg'>
+      <Typography variant={'h4'}>
+        Cпонсори там меценати як надали посильну допомогу проекту
+      </Typography>
       <Grid container spacing={2}>
         {sponsors.map((sponsor) => (
           <Grid key={sponsor.id} item xs={12} sm={6} md={4}>

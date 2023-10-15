@@ -16,7 +16,7 @@ const SponsorEditPage = () => {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
   const [description, setDescription] = useState('')
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(true)
   const [saveOpen, setSaveOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const { sponsorId } = useParams()
