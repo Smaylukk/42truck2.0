@@ -54,7 +54,7 @@ export const CarList: React.FC = () => {
           return {
             id: el.id,
             name: el.name,
-            number: el.number,
+            number: el.numberSort,
             militaryBase: el.militaryBase,
             carName: el.carName,
             active: el.active,

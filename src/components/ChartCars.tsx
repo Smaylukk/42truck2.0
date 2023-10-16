@@ -76,7 +76,7 @@ export const ChartCars: FC<{ cars: ICar[] }> = ({ cars }) => {
                   payload={chartData.map((item, index) => ({
                     id: item.name,
                     type: 'square',
-                    value: `${item.name} (${item.value}%)`,
+                    value: `${item.name} (${item.value})`,
                     color: COLORS[index % COLORS.length],
                   }))}
                 />
