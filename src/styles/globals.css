@@ -69,3 +69,7 @@ code {
 .DataGrid:hover {
   cursor: pointer;
 }
+
+.Hand:hover {
+  cursor: copy;
+}

@@ -1,27 +1,50 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import React from "react";
+import React, { useState } from 'react'
+import { Alert, Paper, Container, Typography, Snackbar } from '@mui/material'
 
 export const Footer = () => {
+  const [openAlert, setOpenAlert] = useState(false)
+  const copyCode = (text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        setOpenAlert(true)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
+  const handleClose = () => {
+    setOpenAlert(false)
+  }
   return (
-    <Box>
-      <Container maxWidth="md">
-        <Typography variant="h6" align="center" gutterBottom>
+    <Container maxWidth='md'>
+      <Paper elevation={8} sx={{ px: 2 }}>
+        <Typography variant='h6' align='center' gutterBottom>
           Реквізити
         </Typography>
-        <Typography
-          variant="subtitle1"
-          align="left"
-          color="text.secondary"
-          component="div"
-        >
-          Дякуємо, що рухаєте світ. Якщо хочете підтримати проєкт, реквізити
-          тут:
+        <Typography variant='subtitle1' align='left' color='text.secondary' component='div'>
+          Дякуємо, що рухаєте світ. Якщо хочете підтримати проєкт, реквізити тут:
           <br />
-          Приват - <b className={"Amount"}>5168745105614421</b> (Антон Сененко)
+          Приват -{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('5168745105614421')
+            }}
+          >
+            5168745105614421
+          </b>{' '}
+          (Антон Сененко)
           <br />
-          PayPal - <b className={"Amount"}>senenkoanton@gmail.com</b>
+          PayPal -{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('senenkoanton@gmail.com')
+            }}
+          >
+            senenkoanton@gmail.com
+          </b>
           <br />
           <br />
           Детальні реквізити: <br />
@@ -38,31 +61,54 @@ export const Footer = () => {
           <br />
           Призначення платежу -
           <br />
-          Поповнення рахунку СЕНЕНКО АНТОН ІГОРОВИЧ, безповоротна
-          фінансова/благодійна допомога ЗСУ)
+          Поповнення рахунку СЕНЕНКО АНТОН ІГОРОВИЧ, безповоротна фінансова/благодійна допомога ЗСУ)
           <br />
           <br />
-          Принагідно лишаю реквізити Мартин Брест, з яким ми разом реалізуємо
-          проєкт:
+          Принагідно лишаю реквізити Мартин Брест, з яким ми разом реалізуємо проєкт:
           <br />
-          Моно: <b className={"Amount"}>4441114443028624</b>
+          Моно:{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('4441114443028624')
+            }}
+          >
+            4441114443028624
+          </b>
           <br />
-          PayPal: <b className={"Amount"}>Oleg.boldyriev@gmail.com</b>
+          PayPal:{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('Oleg.boldyriev@gmail.com')
+            }}
+          >
+            Oleg.boldyriev@gmail.com
+          </b>
           <br />
-          Приват: <b className={"Amount"}>4149499371016518</b>
+          Приват:{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('4149499371016518')
+            }}
+          >
+            4149499371016518
+          </b>
         </Typography>
-        <Typography variant="subtitle1" align="center" gutterBottom>
+        <Typography variant='subtitle1' align='center' gutterBottom>
           Розробка - Головаченко Дмитро
           <br />
-          <a
-            href="mailto:smaylukk@gmail.com"
-            target="_top"
-            className={"Amount"}
-          >
+          <a href='mailto:smaylukk@gmail.com' target='_top' className={'Amount'}>
             smaylukk@gmail.com
           </a>
         </Typography>
-      </Container>
-    </Box>
-  );
-};
+      </Paper>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity='success' sx={{ width: '100%' }}>
+          Скопійовано!
+        </Alert>
+      </Snackbar>
+    </Container>
+  )
+}
