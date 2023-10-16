@@ -34,8 +34,8 @@ export const SponsorCard: React.FC<IPropsCardSponsor> = ({ sponsorId }) => {
       <CardHeader title={name} />
       <CardMedia
         component='img'
-        image={`${config.staticUrl}${imageUrl}`}
-        alt='Paella dish'
+        image={imageUrl ? `${config.staticUrl}${imageUrl}` : '/assets/sponsor.png'}
+        alt='sponsor'
         style={{ blockSize: 'fit-content', width: 150, height: 150 }}
       />
       <CardContent>
