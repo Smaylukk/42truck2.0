@@ -196,6 +196,7 @@ const CarEditPage = () => {
             alignItems: 'flex-start',
           }}
         >
+          <EditPageControlButton id={idCar ?? ''} handleRemove={handleRemoveButton} />
           <Grid item xs={12} sm={1}>
             <FormControlLabel
               label='Активна'

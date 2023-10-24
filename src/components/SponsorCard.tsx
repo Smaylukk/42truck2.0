@@ -30,7 +30,7 @@ export const SponsorCard: React.FC<IPropsCardSponsor> = ({ sponsorId }) => {
   }, [sponsorId])
 
   return (
-    <Card sx={{ maxWidth: 500 }}>
+    <Card sx={{ maxWidth: 500, minWidth: 250, m: 2 }}>
       <CardHeader title={name} />
       <CardMedia
         component='img'

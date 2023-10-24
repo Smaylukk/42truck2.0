@@ -17,6 +17,7 @@
     "google-spreadsheet": "^3.3.0",
     "googleapis": "^126.0.0",
     "jwt-decode": "^3.1.2",
+    "lightgallery": "^2.7.2",
     "mobx": "^6.10.2",
     "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",

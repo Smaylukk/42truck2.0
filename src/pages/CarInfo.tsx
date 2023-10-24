@@ -10,6 +10,14 @@ import { useParams } from 'react-router-dom'
 import carAPI from '../http/carAPI'
 import config from '../utils/config'
 import SponsorCard from '../components/SponsorCard'
+import LightGallery from 'lightgallery/react'
+// import styles
+import 'lightgallery/css/lightgallery.css'
+import 'lightgallery/css/lg-zoom.css'
+import 'lightgallery/css/lg-thumbnail.css'
+// plugins
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
+import lgZoom from 'lightgallery/plugins/zoom'
 
 export const CarInfo = () => {
   const [name, setName] = useState('')
@@ -54,23 +62,23 @@ export const CarInfo = () => {
         maxWidth: '100%',
       }}
     >
-      <Grid
-        item
-        xs={12}
-        gap={2}
-        sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
-      >
-        {pictures.map((picture, index) => (
-          <img
-            key={index}
-            alt={'car picture'}
-            src={config.staticUrl + picture || config.url + '/assets/truck.jpg'}
-            style={{ height: '250px', margin: '0px 4px' }}
-          />
-        ))}
-        {/*</Stack>*/}
+      <Grid item xs={12} md={10}>
+        <LightGallery allowMediaOverlap toggleThumb closable plugins={[lgThumbnail, lgZoom]}>
+          {pictures.map((picture, index) => (
+            <a
+              key={index}
+              href={`${config.staticUrl}${picture}` || `${config.url}/assets/truck.jpg`}
+            >
+              <img
+                alt={name}
+                src={`${config.thumbUrl}${picture}?dim=150x150` || `${config.url}/assets/truck.jpg`}
+                style={{ height: '150px', margin: '0px 4px' }}
+              />
+            </a>
+          ))}
+        </LightGallery>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={10} lg={8}>
         <Card>
           <CardContent sx={{ flexGrow: 1 }}>
             <Grid container sx={{ mt: 1 }}>
@@ -133,24 +141,30 @@ export const CarInfo = () => {
                   {addEquip}
                 </Typography>
               </Grid>
-              <Grid item xs={12} mt={5}>
-                <Typography variant='h5'> Історія:</Typography>
-                <Typography
-                  className={'CarInfoValue'}
-                  variant={'h6'}
-                  style={{
-                    whiteSpace: 'pre-wrap',
-                  }}
-                >
-                  {description}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} mt={5}>
-                <Typography variant='h5'> Спонсори:</Typography>
-              </Grid>
-              {sponsors.map((el, index) => {
-                return <SponsorCard sponsorId={el} key={index} />
-              })}
+              {description && (
+                <Grid item xs={12} mt={5}>
+                  <Typography variant='h5'> Історія:</Typography>
+                  <Typography
+                    className={'CarInfoValue'}
+                    variant={'h6'}
+                    style={{
+                      whiteSpace: 'pre-wrap',
+                    }}
+                  >
+                    {description}
+                  </Typography>
+                </Grid>
+              )}
+              {sponsors.length > 0 && (
+                <Grid item xs={12} mt={5}>
+                  <Typography variant='h5'> Спонсори:</Typography>
+                  <Grid item xs={12} mt={5} sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap' }}>
+                    {sponsors.map((el, index) => {
+                      return <SponsorCard sponsorId={el} key={index} />
+                    })}
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </CardContent>
         </Card>
