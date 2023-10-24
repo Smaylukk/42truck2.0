@@ -62,7 +62,17 @@ export const CarInfo = () => {
         maxWidth: '100%',
       }}
     >
-      <Grid item xs={12} md={10}>
+      <Grid
+        item
+        xs={12}
+        md={10}
+        lg={8}
+        sx={{
+          m: 5,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <LightGallery allowMediaOverlap toggleThumb closable plugins={[lgThumbnail, lgZoom]}>
           {pictures.map((picture, index) => (
             <a
