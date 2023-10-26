@@ -96,15 +96,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
               {car.addEquip}
             </Typography>
           </Box>
-          {car.sponsors.length > 0 && (
-            <Box display='flex' justifyContent='center'>
-              <Box
-                component={'img'}
-                src='/assets/sponsored.png'
-                sx={{ mt: 2, height: 40, alignSelf: 'center' }}
-              />
-            </Box>
-          )}
         </CardContent>
       </Card>
     </Grid>
