@@ -166,13 +166,15 @@ export const CarInfo = () => {
                 </Grid>
               )}
               {sponsors.length > 0 && (
-                <Grid item xs={12} mt={5}>
-                  <Typography variant='h5'> Спонсори:</Typography>
-                  <Grid item xs={12} mt={5} sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap' }}>
-                    {sponsors.map((el, index) => {
-                      return <SponsorCard sponsorId={el} key={index} />
-                    })}
+                <Grid container xs={12} mt={5} spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'> Спонсори:</Typography>
                   </Grid>
+                  {sponsors.map((el) => (
+                    <Grid key={el} item xs={12} sm={6} md={4}>
+                      <SponsorCard sponsorId={el} showCars={false} />
+                    </Grid>
+                  ))}
                 </Grid>
               )}
             </Grid>

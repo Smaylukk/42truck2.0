@@ -1,7 +1,11 @@
 import { $authHost, $host } from '.'
 
 import userAPI from './userAPI'
-import { ISponsorCreateUpdate, ISponsorDocument } from '../utils/interfaces'
+import {
+  ISponsorCreateUpdate,
+  ISponsorDocument,
+  ISponsorDocumentWithCar,
+} from '../utils/interfaces'
 
 const restApiSponsor = '/api/sponsor'
 class SponsorAPI {
@@ -10,8 +14,13 @@ class SponsorAPI {
     return result.data
   }
 
-  async getOneSponsor(id: string): Promise<ISponsorDocument> {
-    const result = await $host.get<ISponsorDocument>(`${restApiSponsor}/${id}`)
+  async getAllActiveSponsor(): Promise<ISponsorDocumentWithCar[]> {
+    const result = await $host.get<ISponsorDocumentWithCar[]>(`${restApiSponsor}/active`)
+    return result.data
+  }
+
+  async getOneSponsor(id: string): Promise<ISponsorDocumentWithCar> {
+    const result = await $host.get<ISponsorDocumentWithCar>(`${restApiSponsor}/${id}`)
     return result.data
   }
 

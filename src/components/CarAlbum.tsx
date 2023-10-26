@@ -3,18 +3,18 @@ import { Fade, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fr
 import Grid from '@mui/material/Grid'
 import { CarCard } from './CarCard'
 import Container from '@mui/material/Container'
-import { CarStatus, ICar } from '../utils/interfaces'
+import { CarStatus, ICarDocument } from '../utils/interfaces'
 import Box from '@mui/material/Box'
 import { ChartCars } from './ChartCars'
 
 export const CarAlbum: FC<{
   loading: boolean
-  cars: ICar[]
+  cars: ICarDocument[]
 }> = ({ loading, cars }) => {
   const [statusFilter, setStatusFilter] = useState(0)
 
   const [fadeLoader, setFadeLoader] = useState(true)
-  const [filterCar, setFilterCar] = useState<ICar[]>([])
+  const [filterCar, setFilterCar] = useState<ICarDocument[]>([])
   const handleChange = (event: SelectChangeEvent<number>) => {
     setStatusFilter(event.target.value as number)
     console.log(event.target.value)

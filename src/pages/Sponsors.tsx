@@ -13,7 +13,7 @@ export const Sponsors = () => {
   const [fadeLoader, setFadeLoader] = useState(true)
   const [sponsors, setSponsors] = useState<ISponsorDocument[]>([])
   useEffect(() => {
-    sponsorAPI.getAllSponsor().then((sponsorList) => {
+    sponsorAPI.getAllActiveSponsor().then((sponsorList) => {
       setSponsors(sponsorList)
       setLoading(false)
     })
@@ -39,12 +39,12 @@ export const Sponsors = () => {
   return (
     <Container sx={{ py: 2, mt: 8 }} maxWidth='lg'>
       <Typography variant={'h4'}>
-        Cпонсори там меценати як надали посильну допомогу проекту
+        Cпонсори та меценати, які надали посильну допомогу проекту
       </Typography>
       <Grid container spacing={2}>
         {sponsors.map((sponsor) => (
           <Grid key={sponsor.id} item xs={12} sm={6} md={4}>
-            <SponsorCard sponsorId={sponsor.id!} />
+            <SponsorCard sponsorId={sponsor.id!} showCars={true} />
           </Grid>
         ))}
       </Grid>

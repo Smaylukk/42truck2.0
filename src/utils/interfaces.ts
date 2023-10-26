@@ -4,12 +4,22 @@ export interface IThemeProps {
 }
 
 export interface ISponsorDocument {
-  id?: string
+  id: string
   name: string
   description: string
   picture: string
   url: string
   active: boolean
+}
+
+export interface ISponsorDocumentWithCar {
+  id: string
+  name: string
+  description: string
+  picture: string
+  url: string
+  active: boolean
+  cars: IShortCar[]
 }
 
 export interface ISponsorCreateUpdate {
@@ -18,6 +28,13 @@ export interface ISponsorCreateUpdate {
   picture: string
   url: string
   active: boolean
+}
+
+export interface IShortCar {
+  id: string
+  number: string
+  name: string
+  carName: string
 }
 
 export interface ICarDocument {
@@ -37,21 +54,7 @@ export interface ICarDocument {
   pictures: string[]
   sponsors: string[]
 }
-export interface ICar {
-  id: string
-  number: string
-  numberSort: number
-  militaryBase: string
-  picture: string
-  name: string
-  amountRepair: number
-  amountTires: number
-  amountDyeing: number
-  addEquip: string
-  status: CarStatus
-  carName: string
-  description: string
-}
+
 export interface ICarCreateUpdate {
   number: string
   numberSort: number

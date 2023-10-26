@@ -5,14 +5,16 @@ import CardMedia from '@mui/material/CardMedia'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
-import { ICar } from '../utils/interfaces'
+import { ICarDocument } from '../utils/interfaces'
 import { StatusColor } from '../utils/utils'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import { CAR_ROUTE } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import config from '../utils/config'
 
-export const CarCard: FC<{ car: ICar }> = ({ car }) => {
+export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
   const navigate = useNavigate()
 
   return (
@@ -26,7 +28,7 @@ export const CarCard: FC<{ car: ICar }> = ({ car }) => {
       >
         <CardMedia
           component='img'
-          src={car.picture || '/assets/truck.jpg'}
+          src={car.pictures[0] ? `${config.staticUrl}${car.pictures[0]}` : '/assets/truck.jpg'}
           sx={{ height: '250px' }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
@@ -88,10 +90,21 @@ export const CarCard: FC<{ car: ICar }> = ({ car }) => {
             Фарбування:
             <span className={'Amount'}>{car.amountDyeing || '0'} грн.</span>
           </Typography>
-          <Typography>Додаткове обладнання:</Typography>
-          <Typography className={'CarInfoValue'} align={'right'}>
-            {car.addEquip}
-          </Typography>
+          <Box display='flex' flexDirection='column'>
+            <Typography>Додаткове обладнання:</Typography>
+            <Typography className={'CarInfoValue'} align={'right'}>
+              {car.addEquip}
+            </Typography>
+          </Box>
+          {car.sponsors.length > 0 && (
+            <Box display='flex' justifyContent='center'>
+              <Box
+                component={'img'}
+                src='/assets/sponsored.png'
+                sx={{ mt: 2, height: 40, alignSelf: 'center' }}
+              />
+            </Box>
+          )}
         </CardContent>
       </Card>
     </Grid>

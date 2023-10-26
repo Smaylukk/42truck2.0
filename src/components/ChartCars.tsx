@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import Box from '@mui/material/Container'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { ICar, CarStatus } from '../utils/interfaces'
+import { CarStatus, ICarDocument } from '../utils/interfaces'
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import Typography from '@mui/material/Typography'
 
@@ -10,7 +10,7 @@ interface PieData {
   name: string
   value: number
 }
-export const ChartCars: FC<{ cars: ICar[] }> = ({ cars }) => {
+export const ChartCars: FC<{ cars: ICarDocument[] }> = ({ cars }) => {
   const [chartData, setChartData] = useState<PieData[]>([])
   const COLORS = [
     'rgb(174,179,178)',
