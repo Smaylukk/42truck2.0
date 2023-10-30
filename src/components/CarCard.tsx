@@ -11,7 +11,6 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import { CAR_ROUTE } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
-import Box from '@mui/material/Box'
 import config from '../utils/config'
 
 export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
@@ -90,12 +89,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             Фарбування:
             <span className={'Amount'}>{car.amountDyeing || '0'} грн.</span>
           </Typography>
-          <Box display='flex' flexDirection='column'>
-            <Typography>Додаткове обладнання:</Typography>
-            <Typography className={'CarInfoValue'} align={'right'}>
-              {car.addEquip}
-            </Typography>
-          </Box>
         </CardContent>
       </Card>
     </Grid>

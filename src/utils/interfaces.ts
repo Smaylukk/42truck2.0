@@ -37,6 +37,11 @@ export interface IShortCar {
   carName: string
 }
 
+export interface IPrevNextCar {
+  id: string
+  number: string
+}
+
 export interface ICarDocument {
   id: string
   name: string

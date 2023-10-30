@@ -1,23 +1,23 @@
-import { $authHost } from '.'
+import { $authHost, $host } from '.'
 
 import userAPI from './userAPI'
-import { ICarCreateUpdate, ICarDocument } from '../utils/interfaces'
+import { ICarCreateUpdate, ICarDocument, IPrevNextCar } from '../utils/interfaces'
 
 const restApiCar = '/api/car'
 
 class CarAPI {
   async getAllCar(): Promise<ICarDocument[]> {
-    const cars = await $authHost.get<ICarDocument[]>(restApiCar)
+    const cars = await $host.get<ICarDocument[]>(restApiCar)
     return cars.data
   }
 
   async getAllActiveCar(): Promise<ICarDocument[]> {
-    const cars = await $authHost.get<ICarDocument[]>(`${restApiCar}/active`)
+    const cars = await $host.get<ICarDocument[]>(`${restApiCar}/active`)
     return cars.data
   }
 
   async getOneCar(id: string): Promise<ICarDocument> {
-    const cars = await $authHost.get<ICarDocument>(`${restApiCar}/${id}`)
+    const cars = await $host.get<ICarDocument>(`${restApiCar}/${id}`)
     return cars.data
   }
 
@@ -37,6 +37,16 @@ class CarAPI {
     await userAPI.check()
     const cars = await $authHost.delete(`${restApiCar}/${id}`)
     return cars.data
+  }
+
+  async getPrevCar(id: string): Promise<IPrevNextCar> {
+    const prevCar = await $host.get<IPrevNextCar>(`${restApiCar}/prev/${id}`)
+    return prevCar.data
+  }
+
+  async getNextCar(id: string): Promise<IPrevNextCar> {
+    const nextCar = await $host.get<IPrevNextCar>(`${restApiCar}/next/${id}`)
+    return nextCar.data
   }
 }
 export default new CarAPI()

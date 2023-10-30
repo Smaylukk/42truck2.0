@@ -4,9 +4,9 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
-import { CarStatus } from '../utils/interfaces'
+import { CarStatus, IPrevNextCar } from '../utils/interfaces'
 import { StatusColor } from '../utils/utils'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import carAPI from '../http/carAPI'
 import config from '../utils/config'
 import SponsorCard from '../components/SponsorCard'
@@ -18,6 +18,9 @@ import 'lightgallery/css/lg-thumbnail.css'
 // plugins
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import lgZoom from 'lightgallery/plugins/zoom'
+import Button from '@mui/material/Button'
+import { CAR_ROUTE } from '../utils/consts'
+import Stack from '@mui/material/Stack'
 
 export const CarInfo = () => {
   const [name, setName] = useState('')
@@ -32,7 +35,10 @@ export const CarInfo = () => {
   const [sponsors, setSponsors] = useState<string[]>([])
   const [pictures, setPictures] = useState<string[]>([])
   const [description, setDescription] = useState('')
+  const [prevCar, setPrevCar] = useState<IPrevNextCar>({} as IPrevNextCar)
+  const [nextCar, setNextCar] = useState<IPrevNextCar>({} as IPrevNextCar)
   const { carId } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (carId) {
@@ -49,6 +55,18 @@ export const CarInfo = () => {
         setSponsors(data.sponsors)
         setPictures(data.pictures)
         setDescription(data.description)
+      })
+
+      carAPI.getPrevCar(carId).then((prevCar) => {
+        if (prevCar) {
+          setPrevCar(prevCar)
+        }
+      })
+
+      carAPI.getNextCar(carId).then((nextCar) => {
+        if (nextCar) {
+          setNextCar(nextCar)
+        }
       })
     }
   }, [carId])
@@ -87,6 +105,30 @@ export const CarInfo = () => {
             </a>
           ))}
         </LightGallery>
+      </Grid>
+      <Grid item xs={12} md={10} lg={8}>
+        <Stack direction='row' spacing={1} justifyContent='space-between' sx={{ mt: -6 }}>
+          <Button
+            size='medium'
+            variant='outlined'
+            disabled={!prevCar.id}
+            onClick={() => {
+              navigate(CAR_ROUTE.replace(':carId', prevCar.id))
+            }}
+          >
+            Попередня тачка {prevCar.id ? `(${prevCar.number})` : ''}
+          </Button>
+          <Button
+            size='medium'
+            variant='outlined'
+            disabled={!nextCar.id}
+            onClick={() => {
+              navigate(CAR_ROUTE.replace(':carId', nextCar.id))
+            }}
+          >
+            Наступна тачка {nextCar.id ? `(${nextCar.number})` : ''}
+          </Button>
+        </Stack>
       </Grid>
       <Grid item xs={12} md={10} lg={8}>
         <Card>
