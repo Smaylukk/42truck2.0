@@ -27,8 +27,12 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
       >
         <CardMedia
           component='img'
+          className='CarPicture'
           src={car.pictures[0] ? `${config.staticUrl}${car.pictures[0]}` : '/assets/truck.jpg'}
           sx={{ height: '250px' }}
+          onClick={() => {
+            navigate(CAR_ROUTE.replace(':carId', car.id))
+          }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
           <Stack direction='row' spacing={1} sx={{ mt: -6 }}>

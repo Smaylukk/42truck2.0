@@ -86,12 +86,16 @@ export const CarInfo = () => {
         md={10}
         lg={8}
         sx={{
-          m: 5,
-          display: 'flex',
-          justifyContent: 'center',
+          m: 2,
         }}
       >
-        <LightGallery allowMediaOverlap toggleThumb closable plugins={[lgThumbnail, lgZoom]}>
+        <LightGallery
+          allowMediaOverlap
+          toggleThumb
+          closable
+          showZoomInOutIcons
+          plugins={[lgThumbnail, lgZoom]}
+        >
           {pictures.map((picture, index) => (
             <a
               key={index}
@@ -107,7 +111,7 @@ export const CarInfo = () => {
         </LightGallery>
       </Grid>
       <Grid item xs={12} md={10} lg={8}>
-        <Stack direction='row' spacing={1} justifyContent='space-between' sx={{ mt: -6 }}>
+        <Stack direction='row' spacing={1} justifyContent='space-between' sx={{ mt: 1, mb: 1 }}>
           <Button
             size='medium'
             variant='outlined'

@@ -69,7 +69,9 @@ code {
 .DataGrid:hover {
   cursor: pointer;
 }
-
 .Hand:hover {
   cursor: copy;
+}
+.CarPicture:hover {
+  cursor: pointer;
 }
