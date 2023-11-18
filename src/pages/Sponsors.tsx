@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import sponsorAPI from '../http/sponsorAPI'
 import SponsorCard from '../components/SponsorCard'
 import Typography from '@mui/material/Typography'
+import { Header } from '../components/Header'
 
 export const Sponsors = () => {
   const [loading, setLoading] = useState(true)
@@ -37,7 +38,8 @@ export const Sponsors = () => {
   }
 
   return (
-    <Container sx={{ py: 2, mt: 8 }} maxWidth='lg'>
+    <Container maxWidth='lg'>
+      <Header />
       <Typography variant={'h4'}>
         Cпонсори та меценати, які надали посильну допомогу проекту
       </Typography>

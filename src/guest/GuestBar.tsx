@@ -22,7 +22,7 @@ export const GuestAppBar: React.FC<IThemeProps> = ({ themeChanger, useDark }) =>
   return (
     <AppBar position='fixed'>
       <Toolbar>
-        <Box sx={{ flexGrow: 0, display: { xs: 'flex' } }}>
+        <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
           <IconButton
             size='large'
             aria-label='account of current user'
@@ -65,6 +65,16 @@ export const GuestAppBar: React.FC<IThemeProps> = ({ themeChanger, useDark }) =>
                 </Button>
               </NavLink>
             </MenuItem>
+            <MenuItem>
+              <Button variant='contained' href='https://t.me/martin_brest_pehota' target='_blank'>
+                Мартин Брест
+              </Button>
+            </MenuItem>
+            <MenuItem>
+              <Button variant='contained' href='https://t.me/mouselab' target='_blank'>
+                Антон Сененко
+              </Button>
+            </MenuItem>
           </Menu>
         </Box>
         <Box component={'img'} src='/assets/42.png' sx={{ mr: 2, height: 40 }} />
@@ -75,22 +85,28 @@ export const GuestAppBar: React.FC<IThemeProps> = ({ themeChanger, useDark }) =>
           component={'a'}
           href={'/'}
           sx={{
-            flexGrow: 1,
-            display: { xs: 'none', md: 'block', textDecoration: 'none' },
+            flexGrow: { xs: 1, md: 0 },
+            display: { xs: 'block' },
           }}
         >
-          Проект - 42 тачки на ЗСУ
+          <NavLink
+            to={'/'}
+            style={{
+              textDecoration: 'none',
+              color: 'inherit',
+            }}
+          >
+            42 тачки
+          </NavLink>
         </Typography>
-        <Typography
-          variant='h6'
-          color='inherit'
-          noWrap
-          component={'a'}
-          href={'/'}
-          sx={{ flexGrow: 1, display: { xs: 'block', md: 'none' } }}
-        >
-          42 тачки
-        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', gridGap: 20 }, ml: 5 }}>
+          <NavLink to={'/sponsorList'}>
+            <Button variant='contained'>Спонсори</Button>
+          </NavLink>
+          <NavLink to={'/requisites'}>
+            <Button variant='contained'>Реквізити</Button>
+          </NavLink>
+        </Box>
         <ThemeModeSwitch useDark={useDark} onChange={themeChanger} />
       </Toolbar>
     </AppBar>

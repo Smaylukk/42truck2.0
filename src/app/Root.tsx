@@ -20,6 +20,9 @@ export const Root: React.FC<IThemeProps> = observer(({ themeChanger, useDark }) 
         userStore.user = data
         userStore.isAuth = true
       })
+      .catch(() => {
+        userStore.isAuth = false
+      })
       .finally(() => setLoading(false))
   }, [])
 
