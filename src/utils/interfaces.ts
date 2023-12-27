@@ -3,6 +3,10 @@ export interface IThemeProps {
   themeChanger: (useDark?: boolean) => void
 }
 
+export interface IAppBarProps {
+  isAuth: boolean
+}
+
 export interface ISponsorDocument {
   id: string
   name: string
