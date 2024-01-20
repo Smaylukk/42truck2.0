@@ -6,6 +6,8 @@ export const StatusColor = new Map<CarStatus, string>([
   [CarStatus.transport, '#39b5dd'],
   [CarStatus.repair, 'orange'],
   [CarStatus.done, 'green'],
+  [CarStatus.finish, 'green'],
+  [CarStatus.queue, 'red'],
 ])
 
 export const configApp = {

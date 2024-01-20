@@ -66,6 +66,9 @@ code {
   float: right;
   width: 100%;
 }
+.TextRight {
+  text-align: end;
+}
 .DataGrid:hover {
   cursor: pointer;
 }

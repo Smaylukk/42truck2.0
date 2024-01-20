@@ -6,13 +6,17 @@ import { ICarCreateUpdate, ICarDocument, IPrevNextCar } from '../utils/interface
 const restApiCar = '/api/car'
 
 class CarAPI {
-  async getAllCar(): Promise<ICarDocument[]> {
-    const cars = await $host.get<ICarDocument[]>(restApiCar)
+  async getAllCar(isRepair = false): Promise<ICarDocument[]> {
+    const cars = isRepair
+      ? await $host.get<ICarDocument[]>(`${restApiCar}/repair`)
+      : await $host.get<ICarDocument[]>(restApiCar)
     return cars.data
   }
 
-  async getAllActiveCar(): Promise<ICarDocument[]> {
-    const cars = await $host.get<ICarDocument[]>(`${restApiCar}/active`)
+  async getAllActiveCar(isRepair = false): Promise<ICarDocument[]> {
+    const cars = isRepair
+      ? await $host.get<ICarDocument[]>(`${restApiCar}/repair/active`)
+      : await $host.get<ICarDocument[]>(`${restApiCar}/active`)
     return cars.data
   }
 

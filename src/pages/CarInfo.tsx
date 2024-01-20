@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
-import { CarStatus, IPrevNextCar } from '../utils/interfaces'
+import { CarColor, CarStatus, IPrevNextCar } from '../utils/interfaces'
 import { StatusColor } from '../utils/utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import carAPI from '../http/carAPI'
@@ -32,6 +32,7 @@ export const CarInfo = () => {
   const [amountDyeing, setAmountDyeing] = useState(0)
   const [amountTires, setAmountTires] = useState(0)
   const [amountRepair, setAmountRepair] = useState(0)
+  const [color, setColor] = useState<CarColor>(CarColor.not)
   const [sponsors, setSponsors] = useState<string[]>([])
   const [pictures, setPictures] = useState<string[]>([])
   const [description, setDescription] = useState('')
@@ -55,6 +56,7 @@ export const CarInfo = () => {
         setSponsors(data.sponsors)
         setPictures(data.pictures)
         setDescription(data.description)
+        setColor(data.color)
       })
 
       carAPI.getPrevCar(carId).then((prevCar) => {
@@ -180,11 +182,21 @@ export const CarInfo = () => {
                 </Typography>
                 <Typography className='CarInfoAmount' variant='h5'>
                   Шини:
-                  <span className={'Amount'}>{amountTires || '0'} грн.</span>
+                  <Typography className={'Amount'} variant='h5'>
+                    {amountTires || '0'} грн.
+                  </Typography>
                 </Typography>
                 <Typography className='CarInfoAmount' variant='h5'>
                   Фарбування:
-                  <span className={'Amount'}>{amountDyeing || '0'} грн.</span>
+                  <Typography className={'Amount'} variant='h5'>
+                    {amountDyeing || '0'} грн.
+                  </Typography>
+                </Typography>
+                <Typography className='CarInfoAmount' variant='h5'>
+                  Колір:
+                  <Typography className={'Amount'} variant='h5'>
+                    {color || 'Таємний Мартін'}
+                  </Typography>
                 </Typography>
                 <Typography variant='h5'>Додаткове обладнання:</Typography>
                 <Typography

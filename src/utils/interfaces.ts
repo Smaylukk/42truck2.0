@@ -60,6 +60,8 @@ export interface ICarDocument {
   active: boolean
   status: CarStatus
   description: string
+  color: CarColor
+  isRepair: boolean
   pictures: string[]
   sponsors: string[]
 }
@@ -77,6 +79,8 @@ export interface ICarCreateUpdate {
   carName: string
   description: string
   active: boolean
+  color: CarColor
+  isRepair: boolean
   pictures: string[]
   sponsors: string[]
 }
@@ -87,6 +91,8 @@ export enum CarStatus {
   transport = 'Перегон',
   repair = 'Ремонт',
   done = 'У військах',
+  queue = 'В черзі',
+  finish = 'Завершено',
 }
 
 export interface IUserDocument {
@@ -100,4 +106,11 @@ export interface IUserCreateUpdate {
   name: string
   email: string
   password: string
+}
+
+export enum CarColor {
+  gray = 'Мартінбрестовський сірий фельдграу',
+  green = 'Брест в болоті',
+  black = 'Душа Бреста',
+  not = 'Таємний Мартін',
 }

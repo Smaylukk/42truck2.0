@@ -17,7 +17,7 @@ import {
 import carAPI from '../http/carAPI'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ADMIN_ROUTE } from '../utils/consts'
-import { CarStatus, ICarCreateUpdate, ISponsorDocument } from '../utils/interfaces'
+import { CarColor, CarStatus, ICarCreateUpdate, ISponsorDocument } from '../utils/interfaces'
 import ConfirmationDialog from './ConfirmationDialog'
 import Typography from '@mui/material/Typography'
 import sponsorAPI from '../http/sponsorAPI'
@@ -28,7 +28,7 @@ import UploadImageButton from './UploadImageButton'
 import pictureAPI from '../http/uploadAPI'
 import config from '../utils/config'
 
-const CarEditPage = () => {
+const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
   const [numberSort, setNumberSort] = useState(0)
@@ -39,6 +39,7 @@ const CarEditPage = () => {
   const [amountDyeing, setAmountDyeing] = useState(0)
   const [amountTires, setAmountTires] = useState(0)
   const [amountRepair, setAmountRepair] = useState(0)
+  const [color, setColor] = useState<CarColor>(CarColor.not)
   const [sponsors, setSponsors] = useState<string[]>([])
   const [pictures, setPictures] = useState<string[]>([])
   const [active, setActive] = useState(true)
@@ -78,6 +79,7 @@ const CarEditPage = () => {
         setPictures(data.pictures)
         setActive(data.active)
         setDescription(data.description)
+        setColor(data.color || CarColor.not)
       })
     }
   }, [idCar])
@@ -124,7 +126,7 @@ const CarEditPage = () => {
     const data: ICarCreateUpdate = {
       name,
       militaryBase,
-      number,
+      number: isRepair ? (number ? number : `Repair_${numberSort}`) : number,
       numberSort,
       carName,
       status,
@@ -136,6 +138,8 @@ const CarEditPage = () => {
       description,
       sponsors,
       pictures,
+      color,
+      isRepair,
     }
 
     return idCar ? await carAPI.changeCar(idCar, data) : await carAPI.createCar(data)
@@ -213,16 +217,18 @@ const CarEditPage = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <TextField
-              label='Номер авто'
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
-              fullWidth
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
+          {!isRepair && (
+            <Grid item xs={12} sm={3}>
+              <TextField
+                label='Номер авто'
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+                fullWidth
+                required
+              />
+            </Grid>
+          )}
+          <Grid item xs={12} sm={isRepair ? 5 : 3}>
             <TextField
               label='Марка'
               value={name}
@@ -231,7 +237,7 @@ const CarEditPage = () => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={isRepair ? 4 : 3}>
             <TextField
               label='Статус'
               value={status}
@@ -244,9 +250,11 @@ const CarEditPage = () => {
               <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>
               <MenuItem value={CarStatus.repair}>{CarStatus.repair}</MenuItem>
               <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>
+              <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>
+              <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               label='Військова частина'
               value={militaryBase}
@@ -254,14 +262,32 @@ const CarEditPage = () => {
               onChange={(e) => setMilitaryBase(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Назва машини'
-              value={carName}
-              fullWidth
-              onChange={(e) => setCarName(e.target.value)}
-            />
-          </Grid>
+          {!isRepair && (
+            <Grid item xs={12} sm={4}>
+              <TextField
+                label='Назва машини'
+                value={carName}
+                fullWidth
+                onChange={(e) => setCarName(e.target.value)}
+              />
+            </Grid>
+          )}
+          {!isRepair && (
+            <Grid item xs={12} sm={4}>
+              <TextField
+                label='Колір'
+                value={color}
+                fullWidth
+                select
+                onChange={(e) => setColor(e.target.value as CarColor)}
+              >
+                <MenuItem value={CarColor.gray}>{CarColor.gray}</MenuItem>
+                <MenuItem value={CarColor.green}>{CarColor.green}</MenuItem>
+                <MenuItem value={CarColor.black}>{CarColor.black}</MenuItem>
+                <MenuItem value={CarColor.not}>{CarColor.not}</MenuItem>
+              </TextField>
+            </Grid>
+          )}
           <Grid item xs={4} sm={4}>
             <TextField
               label='Ремонт'
@@ -280,15 +306,17 @@ const CarEditPage = () => {
               onChange={(e) => setAmountTires(+e.target.value)}
             />
           </Grid>
-          <Grid item xs={4} sm={4}>
-            <TextField
-              label='Фарбування'
-              value={amountDyeing}
-              fullWidth
-              type={'number'}
-              onChange={(e) => setAmountDyeing(+e.target.value)}
-            />
-          </Grid>
+          {!isRepair && (
+            <Grid item xs={4} sm={4}>
+              <TextField
+                label='Фарбування'
+                value={amountDyeing}
+                fullWidth
+                type={'number'}
+                onChange={(e) => setAmountDyeing(+e.target.value)}
+              />
+            </Grid>
+          )}
           <Grid item xs={12}>
             <TextField
               label='Додаткове обладнання'
@@ -298,17 +326,19 @@ const CarEditPage = () => {
               onChange={(e) => setAddEquip(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label='Історія/опис тачки'
-              value={description}
-              fullWidth
-              multiline
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Grid>
+          {!isRepair && (
+            <Grid item xs={12}>
+              <TextField
+                label='Історія/опис тачки'
+                value={description}
+                fullWidth
+                multiline
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+          )}
           {/*фото*/}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={isRepair ? 12 : 6}>
             <Typography>Фото-історія тачки</Typography>
             <UploadImageButton caption={'Виберіть фото тачки'} handleImageChange={carImageAdd} />
 
@@ -347,33 +377,35 @@ const CarEditPage = () => {
             </ImageList>
           </Grid>
           {/*спонсори*/}
-          <Grid item xs={12} md={6}>
-            <Typography>
-              Спонсори та меценати, які надали суттєву частку суми для купівлі цієї тачки
-            </Typography>
-            <SponsorSelector onAdd={handleAddSponsor} availableSponsors={availableSponsors} />
-            {sponsors.map((el, index) => (
-              <Grid container sx={{ mt: 1 }} key={index}>
-                <Grid item xs={10}>
-                  <Button variant={'contained'} color={'success'} fullWidth>
-                    {availableSponsors.find((element) => element.id === el)?.name}
-                  </Button>
+          {!isRepair && (
+            <Grid item xs={12} md={6}>
+              <Typography>
+                Спонсори та меценати, які надали суттєву частку суми для купівлі цієї тачки
+              </Typography>
+              <SponsorSelector onAdd={handleAddSponsor} availableSponsors={availableSponsors} />
+              {sponsors.map((el, index) => (
+                <Grid container sx={{ mt: 1 }} key={index}>
+                  <Grid item xs={10}>
+                    <Button variant={'contained'} color={'success'} fullWidth>
+                      {availableSponsors.find((element) => element.id === el)?.name}
+                    </Button>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Button
+                      color={'error'}
+                      variant={'contained'}
+                      sx={{ ml: 2 }}
+                      onClick={() => {
+                        handleRemoveSponsor(el)
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={2}>
-                  <Button
-                    color={'error'}
-                    variant={'contained'}
-                    sx={{ ml: 2 }}
-                    onClick={() => {
-                      handleRemoveSponsor(el)
-                    }}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Grid>
-              </Grid>
-            ))}
-          </Grid>
+              ))}
+            </Grid>
+          )}
           <EditPageControlButton id={idCar ?? ''} handleRemove={handleRemoveButton} />
         </Grid>
       </form>

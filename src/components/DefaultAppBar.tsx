@@ -6,7 +6,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material'
 import Box from '@mui/material/Box'
 import MenuIcon from '@mui/icons-material/Menu'
 import ThemeModeSwitch from '../components/ThemeModeSwitch'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { IAppBarProps, IThemeProps } from '../utils/interfaces'
 import Button from '@mui/material/Button'
 import TelegramIcon from '@mui/icons-material/Telegram'
@@ -26,10 +26,11 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
     setAnchorElNav(null)
   }
 
+  const navigate = useNavigate()
   return (
     <AppBar position='fixed'>
       <Toolbar>
-        <Box sx={{ flexGrow: 0, display: { md: 'flex', lg: 'none' } }}>
+        <Box sx={{ flexGrow: 0, display: 'flex' }}>
           <IconButton
             size='large'
             aria-label='account of current user'
@@ -55,36 +56,68 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { md: 'block' },
+              display: 'block',
             }}
           >
-            <MenuItem>
-              <NavLink to={'/sponsorList'} onClick={handleCloseNavMenu}>
-                <Button variant='contained' onClick={handleCloseNavMenu}>
-                  Спонсори
+            {isAuth && (
+              <MenuItem>
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    navigate('/repair')
+                    handleCloseNavMenu()
+                  }}
+                  fullWidth
+                >
+                  Тачки на прокачку
                 </Button>
-              </NavLink>
+              </MenuItem>
+            )}
+            <MenuItem>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate('/sponsorList')
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                Спонсори
+              </Button>
             </MenuItem>
             <MenuItem>
-              <NavLink to={'/requisites'} onClick={handleCloseNavMenu}>
-                <Button variant='contained' onClick={handleCloseNavMenu}>
-                  Реквізити
-                </Button>
-              </NavLink>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate('/requisites')
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                Реквізити
+              </Button>
             </MenuItem>
-            <MenuItem>
-              <NavLink to={'/admin'} onClick={handleCloseNavMenu}>
-                <Button variant='contained' onClick={handleCloseNavMenu}>
+            {isAuth && (
+              <MenuItem>
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    navigate('/admin')
+                    handleCloseNavMenu()
+                  }}
+                  fullWidth
+                >
                   Адмінка
                 </Button>
-              </NavLink>
-            </MenuItem>
+              </MenuItem>
+            )}
             <MenuItem>
               <Button
                 variant='contained'
                 href='https://t.me/mouselab'
                 target='_blank'
                 startIcon={<TelegramIcon />}
+                fullWidth
               >
                 Антон Сененко
               </Button>
@@ -95,6 +128,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 href='https://www.facebook.com/senenkoanton'
                 target='_blank'
                 startIcon={<FacebookIcon />}
+                fullWidth
               >
                 Антон Сененко
               </Button>
@@ -105,6 +139,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 href='https://t.me/martin_brest_pehota'
                 target='_blank'
                 startIcon={<TelegramIcon />}
+                fullWidth
               >
                 Мартін Брест
               </Button>
@@ -115,6 +150,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 href='https://www.facebook.com/profile.php?id=100006448650648'
                 target='_blank'
                 startIcon={<FacebookIcon />}
+                fullWidth
               >
                 Мартін Брест
               </Button>
@@ -148,10 +184,15 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
         <Box
           sx={{
             flexGrow: 5,
-            display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex', gridGap: 20 },
+            display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex', gridGap: 20 },
             ml: 5,
           }}
         >
+          {isAuth && (
+            <NavLink to={'/repair'}>
+              <Button variant='contained'>Тачки на прокачку</Button>
+            </NavLink>
+          )}
           <NavLink to={'/sponsorList'}>
             <Button variant='contained'>Спонсори</Button>
           </NavLink>
@@ -163,38 +204,6 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               <Button variant='contained'>Адмінка</Button>
             </NavLink>
           )}
-          <Button
-            variant='contained'
-            href='https://t.me/mouselab'
-            target='_blank'
-            startIcon={<TelegramIcon />}
-          >
-            Антон Сененко
-          </Button>
-          <Button
-            variant='contained'
-            href='https://www.facebook.com/senenkoanton'
-            target='_blank'
-            startIcon={<FacebookIcon />}
-          >
-            Антон Сененко
-          </Button>
-          <Button
-            variant='contained'
-            href='https://t.me/martin_brest_pehota'
-            target='_blank'
-            startIcon={<TelegramIcon />}
-          >
-            Мартін Брест
-          </Button>
-          <Button
-            variant='contained'
-            href='https://www.facebook.com/profile.php?id=100006448650648'
-            target='_blank'
-            startIcon={<FacebookIcon />}
-          >
-            Мартін Брест
-          </Button>
         </Box>
         <ThemeModeSwitch useDark={useDark} onChange={themeChanger} />
       </Toolbar>
