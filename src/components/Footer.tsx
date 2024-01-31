@@ -46,6 +46,17 @@ export const Footer = () => {
             senenkoanton@gmail.com
           </b>
           <br />
+          Криптовалюта USDT -{' '}
+          <b
+            className={'Amount Hand'}
+            onClick={() => {
+              copyCode('0xdf89978Ca0F80a30DB5D140b2042e99441ec43A4')
+            }}
+          >
+            0xdf89978Ca0F80a30DB5D140b2042e99441ec43A4
+          </b>{' '}
+          (Ethereum (ERC20))
+          <br />
           <br />
           Детальні реквізити: <br />
           Установа банку - ПриватБанк

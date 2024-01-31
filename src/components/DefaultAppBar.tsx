@@ -59,20 +59,19 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               display: 'block',
             }}
           >
-            {isAuth && (
-              <MenuItem>
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    navigate('/repair')
-                    handleCloseNavMenu()
-                  }}
-                  fullWidth
-                >
-                  Тачки на прокачку
-                </Button>
-              </MenuItem>
-            )}
+            <MenuItem>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate('/repair')
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                реабіліТАЧКИ
+              </Button>
+            </MenuItem>
+
             <MenuItem>
               <Button
                 variant='contained'
@@ -188,11 +187,10 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             ml: 5,
           }}
         >
-          {isAuth && (
-            <NavLink to={'/repair'}>
-              <Button variant='contained'>Тачки на прокачку</Button>
-            </NavLink>
-          )}
+          <NavLink to={'/repair'}>
+            <Button variant='contained'>реабіліТАЧКИ</Button>
+          </NavLink>
+
           <NavLink to={'/sponsorList'}>
             <Button variant='contained'>Спонсори</Button>
           </NavLink>

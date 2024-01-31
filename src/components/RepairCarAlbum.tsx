@@ -57,7 +57,7 @@ export const RepairCarAlbum: FC<{
   return (
     <Fragment>
       <Container sx={{ py: 2 }} maxWidth='lg'>
-        <h1>Тачки на прокачку</h1>
+        <h1>реабіліТАЧКИ</h1>
         <FormControl fullWidth sx={{ py: 2 }}>
           <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
           <Select
