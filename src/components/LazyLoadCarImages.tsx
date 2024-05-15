@@ -16,7 +16,6 @@ export const LazyLoadCarImages: FC<{ images: string[] }> = ({ images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 2,
-    adaptiveHeight: true,
     nextArrow: <CustomNextArrow className={'customNextArrow'} />,
     prevArrow: <CustomPrevArrow className={'customPrevArrow'} />,
   }
