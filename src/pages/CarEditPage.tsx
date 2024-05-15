@@ -18,13 +18,13 @@ import carAPI from '../http/carAPI'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ADMIN_ROUTE } from '../utils/consts'
 import { CarColor, CarStatus, ICarCreateUpdate, ISponsorDocument } from '../utils/interfaces'
-import ConfirmationDialog from './ConfirmationDialog'
+import ConfirmationDialog from '../components/ConfirmationDialog'
 import Typography from '@mui/material/Typography'
 import sponsorAPI from '../http/sponsorAPI'
-import EditPageControlButton from './EditPageControlButton'
-import SponsorSelector from './SponsorSelector'
+import EditPageControlButton from '../components/EditPageControlButton'
+import SponsorSelector from '../components/SponsorSelector'
 import DeleteIcon from '@mui/icons-material/Delete'
-import UploadImageButton from './UploadImageButton'
+import UploadImageButton from '../components/UploadImageButton'
 import pictureAPI from '../http/uploadAPI'
 import config from '../utils/config'
 
@@ -49,6 +49,9 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [availableSponsors, setAvailableSponsors] = useState<ISponsorDocument[]>([])
   const [changePictures, setChangePictures] = useState(false)
+  const [contactName, setContactName] = useState('')
+  const [contactPhone, setContactPhone] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
 
   const { carId } = useParams()
   const navigate = useNavigate()
@@ -64,7 +67,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
   }, [carId])
   useEffect(() => {
     if (idCar) {
-      carAPI.getOneCar(idCar).then((data) => {
+      carAPI.getOneCarAdmin(idCar).then((data) => {
         setName(data.name)
         setMilitaryBase(data.militaryBase || '')
         setNumber(data.number)
@@ -80,6 +83,9 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
         setActive(data.active)
         setDescription(data.description)
         setColor(data.color || CarColor.not)
+        setContactName(data.contactName || '')
+        setContactPhone(data.contactPhone || '')
+        setContactEmail(data.contactEmail || '')
       })
     }
   }, [idCar])
@@ -140,6 +146,9 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
       pictures,
       color,
       isRepair,
+      contactName,
+      contactPhone,
+      contactEmail,
     }
 
     return idCar ? await carAPI.changeCar(idCar, data) : await carAPI.createCar(data)
@@ -245,13 +254,13 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               select
               onChange={(e) => setStatus(e.target.value as CarStatus)}
             >
-              <MenuItem value={CarStatus.find}>{CarStatus.find}</MenuItem>
-              <MenuItem value={CarStatus.transport}>{CarStatus.transport}</MenuItem>
-              <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>
+              {!isRepair && <MenuItem value={CarStatus.find}>{CarStatus.find}</MenuItem>}
+              {!isRepair && <MenuItem value={CarStatus.transport}>{CarStatus.transport}</MenuItem>}
+              {!isRepair && <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>}
               <MenuItem value={CarStatus.repair}>{CarStatus.repair}</MenuItem>
-              <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>
-              <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>
-              <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>
+              {!isRepair && <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>}
+              {isRepair && <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>}
+              {isRepair && <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>}
             </TextField>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -337,6 +346,33 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               />
             </Grid>
           )}
+          <Grid item xs={4}>
+            <TextField
+              label='Контактна особа'
+              value={contactName}
+              fullWidth
+              multiline
+              onChange={(e) => setContactName(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              label='Контактний телефон'
+              value={contactPhone}
+              fullWidth
+              multiline
+              onChange={(e) => setContactPhone(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              label='Контактний email'
+              value={contactEmail}
+              fullWidth
+              multiline
+              onChange={(e) => setContactEmail(e.target.value)}
+            />
+          </Grid>
           {/*фото*/}
           <Grid item xs={12} md={isRepair ? 12 : 6}>
             <Typography>Фото-історія тачки</Typography>

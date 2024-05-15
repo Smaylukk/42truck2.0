@@ -64,6 +64,9 @@ export interface ICarDocument {
   isRepair: boolean
   pictures: string[]
   sponsors: string[]
+  contactName?: string
+  contactPhone?: string
+  contactEmail?: string
 }
 
 export interface ICarCreateUpdate {
@@ -83,6 +86,9 @@ export interface ICarCreateUpdate {
   isRepair: boolean
   pictures: string[]
   sponsors: string[]
+  contactName?: string
+  contactPhone?: string
+  contactEmail?: string
 }
 
 export enum CarStatus {

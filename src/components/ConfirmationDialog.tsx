@@ -34,8 +34,10 @@ const ConfirmationDialog: React.FC<IPropsConfirmationDialog> = ({
         <DialogContentText>{contentText}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Відмінити</Button>
-        <Button onClick={handleConfirm} color='secondary'>
+        <Button onClick={onClose} variant='outlined' color='error'>
+          Відмінити
+        </Button>
+        <Button onClick={handleConfirm} color='success' variant='outlined'>
           {confirmText}
         </Button>
       </DialogActions>

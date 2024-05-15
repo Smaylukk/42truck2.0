@@ -1,9 +1,16 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
-import { Fade, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import Grid from '@mui/material/Grid'
-import Container from '@mui/material/Container'
+import {
+  Fade,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Box,
+  Grid,
+  Container,
+} from '@mui/material'
 import { CarStatus, ICarDocument } from '../utils/interfaces'
-import Box from '@mui/material/Box'
 import { RepairCarCard } from './RepairCarCard'
 
 export const RepairCarAlbum: FC<{
@@ -11,9 +18,9 @@ export const RepairCarAlbum: FC<{
   cars: ICarDocument[]
 }> = ({ loading, cars }) => {
   const [statusFilter, setStatusFilter] = useState(0)
-
   const [fadeLoader, setFadeLoader] = useState(true)
   const [filterCar, setFilterCar] = useState<ICarDocument[]>([])
+
   const handleChange = (event: SelectChangeEvent<number>) => {
     setStatusFilter(event.target.value as number)
   }

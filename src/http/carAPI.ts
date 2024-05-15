@@ -8,8 +8,8 @@ const restApiCar = '/api/car'
 class CarAPI {
   async getAllCar(isRepair = false): Promise<ICarDocument[]> {
     const cars = isRepair
-      ? await $host.get<ICarDocument[]>(`${restApiCar}/repair`)
-      : await $host.get<ICarDocument[]>(restApiCar)
+      ? await $authHost.get<ICarDocument[]>(`${restApiCar}/repair`)
+      : await $authHost.get<ICarDocument[]>(restApiCar)
     return cars.data
   }
 
@@ -22,6 +22,11 @@ class CarAPI {
 
   async getOneCar(id: string): Promise<ICarDocument> {
     const cars = await $host.get<ICarDocument>(`${restApiCar}/${id}`)
+    return cars.data
+  }
+
+  async getOneCarAdmin(id: string): Promise<ICarDocument> {
+    const cars = await $authHost.get<ICarDocument>(`${restApiCar}/admin/${id}`)
     return cars.data
   }
 
@@ -44,12 +49,12 @@ class CarAPI {
   }
 
   async getPrevCar(id: string): Promise<IPrevNextCar> {
-    const prevCar = await $host.get<IPrevNextCar>(`${restApiCar}/prev/${id}`)
+    const prevCar = await $authHost.get<IPrevNextCar>(`${restApiCar}/prev/${id}`)
     return prevCar.data
   }
 
   async getNextCar(id: string): Promise<IPrevNextCar> {
-    const nextCar = await $host.get<IPrevNextCar>(`${restApiCar}/next/${id}`)
+    const nextCar = await $authHost.get<IPrevNextCar>(`${restApiCar}/next/${id}`)
     return nextCar.data
   }
 }
