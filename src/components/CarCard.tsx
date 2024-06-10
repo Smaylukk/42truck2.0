@@ -63,27 +63,19 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
           </Typography>
           <Typography className={'CarInfoAmount'}>
             В/ч:
-            <Typography className={'Amount'} align={'right'}>
-              {car.militaryBase}
-            </Typography>
+            <span className={'Amount TextRight'}>{car.militaryBase}</span>
           </Typography>
           <Typography className={'CarInfoAmount'}>
             Марка:
-            <Typography className={'Amount'} align={'right'}>
-              {car.name}
-            </Typography>
+            <span className={'Amount TextRight'}>{car.name}</span>
           </Typography>
           <Typography className={'CarInfoAmount'}>
             {"Ім'я:"}
-            <Typography className={'Amount'} align={'right'}>
-              {car.carName}
-            </Typography>
+            <span className={'Amount TextRight'}>{car.carName}</span>
           </Typography>
           <Typography className={'CarInfoAmount'}>
             Ремонт:
-            <Typography className={'Amount'} align={'right'}>
-              {car.amountRepair || '0'} грн.
-            </Typography>
+            <span className={'Amount TextRight'}>{car.amountRepair || '0'} грн.</span>
           </Typography>
           <Typography className='CarInfoAmount'>
             Шини:

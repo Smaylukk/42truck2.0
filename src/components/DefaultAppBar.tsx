@@ -11,6 +11,13 @@ import { IAppBarProps, IThemeProps } from '../utils/interfaces'
 import Button from '@mui/material/Button'
 import TelegramIcon from '@mui/icons-material/Telegram'
 import FacebookIcon from '@mui/icons-material/Facebook'
+import {
+  ADMIN_ROUTE,
+  GRATITUDE_ROUTE,
+  REPAIR_ROUTE,
+  REQUISITES_ROUTE,
+  SPONSOR_LIST_ROUTE,
+} from '../utils/consts'
 
 export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
   themeChanger,
@@ -63,7 +70,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               <Button
                 variant='contained'
                 onClick={() => {
-                  navigate('/repair')
+                  navigate(REPAIR_ROUTE)
                   handleCloseNavMenu()
                 }}
                 fullWidth
@@ -76,7 +83,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               <Button
                 variant='contained'
                 onClick={() => {
-                  navigate('/sponsorList')
+                  navigate(SPONSOR_LIST_ROUTE)
                   handleCloseNavMenu()
                 }}
                 fullWidth
@@ -88,7 +95,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               <Button
                 variant='contained'
                 onClick={() => {
-                  navigate('/requisites')
+                  navigate(REQUISITES_ROUTE)
                   handleCloseNavMenu()
                 }}
                 fullWidth
@@ -96,12 +103,24 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 Реквізити
               </Button>
             </MenuItem>
+            <MenuItem>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate(GRATITUDE_ROUTE)
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                Подяки від ЗСУ
+              </Button>
+            </MenuItem>
             {isAuth && (
               <MenuItem>
                 <Button
                   variant='contained'
                   onClick={() => {
-                    navigate('/admin')
+                    navigate(ADMIN_ROUTE)
                     handleCloseNavMenu()
                   }}
                   fullWidth
@@ -187,18 +206,21 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             ml: 5,
           }}
         >
-          <NavLink to={'/repair'}>
+          <NavLink to={REPAIR_ROUTE}>
             <Button variant='contained'>реабіліТАЧКИ</Button>
           </NavLink>
 
-          <NavLink to={'/sponsorList'}>
+          <NavLink to={SPONSOR_LIST_ROUTE}>
             <Button variant='contained'>Спонсори</Button>
           </NavLink>
-          <NavLink to={'/requisites'}>
+          <NavLink to={REQUISITES_ROUTE}>
             <Button variant='contained'>Реквізити</Button>
           </NavLink>
+          <NavLink to={GRATITUDE_ROUTE}>
+            <Button variant='contained'>Подяки від ЗСУ</Button>
+          </NavLink>
           {isAuth && (
-            <NavLink to={'/admin'}>
+            <NavLink to={ADMIN_ROUTE}>
               <Button variant='contained'>Адмінка</Button>
             </NavLink>
           )}

@@ -5,12 +5,14 @@ import Container from '@mui/material/Container'
 import SponsorList from '../components/SponsorList'
 import CarList from '../components/CarList'
 import UserList from '../components/UserList'
+import GratitudeList from '../components/GratitudeList'
 
 const enum TabValue {
   'cars' = 'cars',
   'repairs' = 'repairs',
   'sponsors' = 'sponsors',
   'users' = 'users',
+  'gratitude' = 'gratitude',
 }
 
 const AdminPage = () => {
@@ -39,12 +41,14 @@ const AdminPage = () => {
         <Tab value={TabValue.repairs} label='Ремонт' />
         <Tab value={TabValue.sponsors} label='Спонсори' />
         <Tab value={TabValue.users} label='Користувачі' />
+        <Tab value={TabValue.gratitude} label='Подяки' />
       </Tabs>
       <Box sx={{ width: '100%' }}>
         {tabValue === TabValue.cars && <CarList isRepair={false} />}
         {tabValue === TabValue.repairs && <CarList isRepair={true} />}
         {tabValue === TabValue.sponsors && <SponsorList />}
         {tabValue === TabValue.users && <UserList />}
+        {tabValue === TabValue.gratitude && <GratitudeList />}
       </Box>
     </Box>
   )

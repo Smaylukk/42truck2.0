@@ -15,6 +15,9 @@ import {
   EDIT_REPAIR_CAR_ROUTE,
   ADD_REPAIR_CAR_ROUTE,
   REPAIR_ROUTE,
+  EDIT_GRATITUDE_ROUTE,
+  ADD_GRATITUDE_ROUTE,
+  GRATITUDE_ROUTE,
 } from './consts'
 import Home from '../pages/Home'
 import Auth from '../pages/Auth'
@@ -27,6 +30,8 @@ import UserEditPage from '../pages/UserEditPage'
 import { CarInfo } from '../pages/CarInfo'
 import { Sponsors } from '../pages/Sponsors'
 import Repair from '../pages/Repair'
+import GratitudeEditPage from '../pages/GratitudeEditPage'
+import { Gratitude } from '../pages/Gratitude'
 
 export const publicRoutes: RouteObject[] = [
   { path: LOGIN_ROUTE, element: <Auth /> },
@@ -35,6 +40,7 @@ export const publicRoutes: RouteObject[] = [
   { path: CAR_ROUTE, element: <CarInfo /> },
   { path: SPONSOR_LIST_ROUTE, element: <Sponsors /> },
   { path: REQUISITES_ROUTE, element: <Requisites /> },
+  { path: GRATITUDE_ROUTE, element: <Gratitude /> },
 ]
 export const authRoutes: RouteObject[] = [
   ...publicRoutes,
@@ -47,4 +53,6 @@ export const authRoutes: RouteObject[] = [
   { path: ADD_REPAIR_CAR_ROUTE, element: <CarEditPage isRepair={true} /> },
   { path: EDIT_USER_ROUTE, element: <UserEditPage /> },
   { path: ADD_USER_ROUTE, element: <UserEditPage /> },
+  { path: EDIT_GRATITUDE_ROUTE, element: <GratitudeEditPage /> },
+  { path: ADD_GRATITUDE_ROUTE, element: <GratitudeEditPage /> },
 ]

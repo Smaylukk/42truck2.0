@@ -100,3 +100,34 @@ code {
 .sliderSlick {
   padding-left: 25px;
 }
+.sliderWrapperGratitude {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  overflow: hidden;
+}
+.sliderWrapperGratitudeItem {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sliderWrapperGratitudeItem img {
+  object-fit: contain !important; /* або object-fit: cover, залежно від ваших потреб */
+}
+.customNextArrowGratitude {
+  position: absolute;
+  top: 5%;
+  right: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 1;
+}
+.customPrevArrowGratitude {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 1;
+}

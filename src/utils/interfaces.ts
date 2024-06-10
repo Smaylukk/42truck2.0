@@ -120,3 +120,14 @@ export enum CarColor {
   black = 'Душа Бреста',
   not = 'Таємний Мартін',
 }
+
+export interface IGratitudeDocument {
+  id?: string
+  url: string
+  description: string
+}
+
+export interface IGratitudeCreateUpdate {
+  url: string
+  description: string
+}
