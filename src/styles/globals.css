@@ -131,3 +131,6 @@ code {
   cursor: pointer;
   z-index: 1;
 }
+.warningMsg {
+  color: #e54e07;
+}

@@ -29,12 +29,13 @@ export const Footer = () => {
           <b
             className={'Amount Hand'}
             onClick={() => {
-              copyCode('5168745105614421')
+              copyCode('4149499086676739')
             }}
           >
-            5168745105614421
+            4149499086676739
           </b>{' '}
           (Антон Сененко)
+          <span className='warningMsg'>Увага! Відбулася зміна реквізитів!</span>
           <br />
           PayPal -{' '}
           <b
