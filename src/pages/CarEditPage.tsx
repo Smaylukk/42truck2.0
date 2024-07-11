@@ -259,6 +259,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               {!isRepair && <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>}
               <MenuItem value={CarStatus.repair}>{CarStatus.repair}</MenuItem>
               {!isRepair && <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>}
+              {!isRepair && <MenuItem value={CarStatus.death}>{CarStatus.death}</MenuItem>}
               {isRepair && <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>}
               {isRepair && <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>}
             </TextField>

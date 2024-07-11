@@ -1,11 +1,11 @@
 import * as React from 'react'
+import { FC } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { FC } from 'react'
-import { ICarDocument } from '../utils/interfaces'
+import { CarStatus, ICarDocument } from '../utils/interfaces'
 import { StatusColor } from '../utils/utils'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
@@ -38,7 +38,8 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
           <Stack direction='row' spacing={1} sx={{ mt: -6 }}>
             <Button
               size='small'
-              variant='outlined'
+              variant='contained'
+              color='primary'
               onClick={() => {
                 navigate(CAR_ROUTE.replace(':carId', car.id))
               }}
@@ -47,7 +48,7 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             </Button>
           </Stack>
           <Typography gutterBottom variant='h5' component='h2' align={'center'}>
-            {car.number} {car.carName || ''}
+            {car.number} {car.carName || ''} {car.status === CarStatus.death && ' RIP 🎗'}
           </Typography>
           <Typography className='CarInfoAmount'>
             Статус авто:{' '}

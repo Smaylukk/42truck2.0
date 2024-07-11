@@ -18,6 +18,7 @@ export const ChartCars: FC<{ cars: ICarDocument[] }> = ({ cars }) => {
     'rgb(54,175,230)',
     'rgb(237,191,1)',
     'rgba(8,171,41,0.85)',
+    'rgba(102,102,204,1)',
   ]
   useEffect(() => {
     const m = new Map()
@@ -40,6 +41,7 @@ export const ChartCars: FC<{ cars: ICarDocument[] }> = ({ cars }) => {
       value: m.get(CarStatus.repair) ?? 0,
     })
     dataset.push({ name: CarStatus.done, value: m.get(CarStatus.done) ?? 0 })
+    dataset.push({ name: CarStatus.death, value: m.get(CarStatus.death) ?? 0 })
 
     setChartData(dataset)
   }, [cars])

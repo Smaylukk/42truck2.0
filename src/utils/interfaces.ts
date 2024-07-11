@@ -99,6 +99,7 @@ export enum CarStatus {
   done = 'У військах',
   queue = 'В черзі',
   finish = 'Завершено',
+  death = 'Відслужила',
 }
 
 export interface IUserDocument {

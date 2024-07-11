@@ -34,7 +34,8 @@ export const CarAlbum: FC<{
             (statusFilter === 2 && value.status === CarStatus.buy) ||
             (statusFilter === 3 && value.status === CarStatus.transport) ||
             (statusFilter === 4 && value.status === CarStatus.repair) ||
-            (statusFilter === 5 && value.status === CarStatus.done)
+            (statusFilter === 5 && value.status === CarStatus.done) ||
+            (statusFilter === 6 && value.status === CarStatus.death)
           )
         }),
       )
@@ -77,6 +78,7 @@ export const CarAlbum: FC<{
             <MenuItem value={3}>{CarStatus.transport}</MenuItem>
             <MenuItem value={4}>{CarStatus.repair}</MenuItem>
             <MenuItem value={5}>{CarStatus.done}</MenuItem>
+            <MenuItem value={6}>{CarStatus.death}</MenuItem>
           </Select>
         </FormControl>
         <Grid container spacing={2}>

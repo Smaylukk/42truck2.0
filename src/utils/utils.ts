@@ -8,6 +8,7 @@ export const StatusColor = new Map<CarStatus, string>([
   [CarStatus.done, 'green'],
   [CarStatus.finish, 'green'],
   [CarStatus.queue, 'red'],
+  [CarStatus.death, '#6666cc'],
 ])
 
 export const configApp = {

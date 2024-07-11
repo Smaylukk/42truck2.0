@@ -116,7 +116,7 @@ export const CarInfo = () => {
         <Stack direction='row' spacing={1} justifyContent='space-between' sx={{ mt: 1, mb: 1 }}>
           <Button
             size='medium'
-            variant='outlined'
+            variant='contained'
             disabled={!prevCar.id}
             onClick={() => {
               navigate(CAR_ROUTE.replace(':carId', prevCar.id))
@@ -126,7 +126,7 @@ export const CarInfo = () => {
           </Button>
           <Button
             size='medium'
-            variant='outlined'
+            variant='contained'
             disabled={!nextCar.id}
             onClick={() => {
               navigate(CAR_ROUTE.replace(':carId', nextCar.id))
@@ -143,6 +143,7 @@ export const CarInfo = () => {
               <Grid item xs={12}>
                 <Typography gutterBottom variant='h5' align={'center'}>
                   {number} {carName || ''}
+                  {status === CarStatus.death && '  RIP 🎗'}
                 </Typography>
                 <Typography className='CarInfoAmount' variant='h5'>
                   Статус авто:{' '}
