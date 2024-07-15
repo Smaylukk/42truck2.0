@@ -132,3 +132,8 @@ export interface IGratitudeCreateUpdate {
   url: string
   description: string
 }
+
+export interface GratitudePictureList {
+  name: string
+  url: string
+}

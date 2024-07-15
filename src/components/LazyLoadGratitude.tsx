@@ -1,36 +1,44 @@
 import React, { FC } from 'react'
+import LightGallery from 'lightgallery/react'
+import lgZoom from 'lightgallery/plugins/zoom'
+import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import config from '../utils/config'
-import { ImageList, ImageListItem, useMediaQuery, useTheme } from '@mui/material'
+import { GratitudePictureList } from '../utils/interfaces'
 
-export const LazyLoadGratitude: FC<{ images: string[] }> = ({ images }) => {
-  const theme = useTheme()
-  const xs = useMediaQuery(theme.breakpoints.only('xs'))
-  const small = useMediaQuery(theme.breakpoints.only('sm'))
-  const medium = useMediaQuery(theme.breakpoints.only('md'))
+export const LazyLoadGratitude: FC<{ pictures: GratitudePictureList[] }> = ({ pictures }) => {
   return (
-    <div>
-      <ImageList
-        sx={{
-          width: '100%',
-          height: '100%',
-          // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
-          transform: 'translateZ(0)',
-        }}
-        gap={5}
-        cols={xs ? 1 : small || medium ? 2 : 3}
-        rowHeight={'auto'}
+    <div
+      style={{
+        height: '90%',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}
+    >
+      <LightGallery
+        allowMediaOverlap
+        toggleThumb
+        closable
+        closeOnTap
+        showCloseIcon
+        showZoomInOutIcons
+        plugins={[lgThumbnail, lgZoom]}
       >
-        {images.map((image, i) => (
-          <ImageListItem className={'sliderWrapperGratitudeItem'} key={i}>
+        {pictures.map((element, index) => (
+          <a
+            key={index}
+            href={`${config.staticUrl}${element.url}` || `${config.url}/assets/truck.jpg`}
+          >
             <img
-              srcSet={`${config.staticUrl}${image}`}
-              src={`${config.staticUrl}${image}`}
-              alt={'picture'}
-              loading='lazy'
+              alt={element.name}
+              src={
+                `${config.thumbUrl}${element.url}?dim=200x200` || `${config.url}/assets/truck.jpg`
+              }
+              style={{ height: '200px', margin: '0px 4px' }}
             />
-          </ImageListItem>
+          </a>
         ))}
-      </ImageList>
+      </LightGallery>
     </div>
   )
 }
