@@ -17,6 +17,8 @@ import {
   REPAIR_ROUTE,
   REQUISITES_ROUTE,
   SPONSOR_LIST_ROUTE,
+  THANK_COMMUNITY_ROUTE,
+  ZOMBIE_ROUTE,
 } from '../utils/consts'
 
 export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
@@ -78,7 +80,18 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 реабіліТАЧКИ
               </Button>
             </MenuItem>
-
+            <MenuItem>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate(ZOMBIE_ROUTE)
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                зомбіТАЧКИ
+              </Button>
+            </MenuItem>
             <MenuItem>
               <Button
                 variant='contained'
@@ -113,6 +126,18 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
                 fullWidth
               >
                 Подяки від ЗСУ
+              </Button>
+            </MenuItem>
+            <MenuItem>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate(THANK_COMMUNITY_ROUTE)
+                  handleCloseNavMenu()
+                }}
+                fullWidth
+              >
+                Подяки спільноті
               </Button>
             </MenuItem>
             {isAuth && (
@@ -209,7 +234,9 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
           <NavLink to={REPAIR_ROUTE}>
             <Button variant='contained'>реабіліТАЧКИ</Button>
           </NavLink>
-
+          <NavLink to={ZOMBIE_ROUTE}>
+            <Button variant='contained'>зомбіТАЧКИ</Button>
+          </NavLink>
           <NavLink to={SPONSOR_LIST_ROUTE}>
             <Button variant='contained'>Спонсори</Button>
           </NavLink>
@@ -218,6 +245,9 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
           </NavLink>
           <NavLink to={GRATITUDE_ROUTE}>
             <Button variant='contained'>Подяки від ЗСУ</Button>
+          </NavLink>
+          <NavLink to={THANK_COMMUNITY_ROUTE}>
+            <Button variant='contained'>Подяки спільноті</Button>
           </NavLink>
           {isAuth && (
             <NavLink to={ADMIN_ROUTE}>

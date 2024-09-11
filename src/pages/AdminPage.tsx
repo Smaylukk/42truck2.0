@@ -6,13 +6,15 @@ import SponsorList from '../components/SponsorList'
 import CarList from '../components/CarList'
 import UserList from '../components/UserList'
 import GratitudeList from '../components/GratitudeList'
+import { EditorHTML } from '../components/HtmlEditor'
 
 const enum TabValue {
   'cars' = 'cars',
-  'repairs' = 'repairs',
   'sponsors' = 'sponsors',
   'users' = 'users',
   'gratitude' = 'gratitude',
+  'requisites' = 'requisites',
+  'thankCommunity' = 'thankCommunity',
 }
 
 const AdminPage = () => {
@@ -38,17 +40,19 @@ const AdminPage = () => {
         aria-label='secondary tabs example'
       >
         <Tab value={TabValue.cars} label='Тачки' />
-        <Tab value={TabValue.repairs} label='Ремонт' />
         <Tab value={TabValue.sponsors} label='Спонсори' />
         <Tab value={TabValue.users} label='Користувачі' />
         <Tab value={TabValue.gratitude} label='Подяки' />
+        <Tab value={TabValue.requisites} label='Опис реквізитів' />
+        <Tab value={TabValue.thankCommunity} label='Подяка спільноті' />
       </Tabs>
       <Box sx={{ width: '100%' }}>
-        {tabValue === TabValue.cars && <CarList isRepair={false} />}
-        {tabValue === TabValue.repairs && <CarList isRepair={true} />}
+        {tabValue === TabValue.cars && <CarList />}
         {tabValue === TabValue.sponsors && <SponsorList />}
         {tabValue === TabValue.users && <UserList />}
         {tabValue === TabValue.gratitude && <GratitudeList />}
+        {tabValue === TabValue.requisites && <EditorHTML name={'requisites'} />}
+        {tabValue === TabValue.thankCommunity && <EditorHTML name={'thankCommunity'} />}
       </Box>
     </Box>
   )

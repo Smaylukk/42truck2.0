@@ -9,11 +9,11 @@ import { Container } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 
-const Repair = () => {
+const Zombie = () => {
   const [loading, setLoading] = useState(true)
   const [cars, setCars] = useState<ICarDocument[]>([])
   useEffect(() => {
-    carAPI.getAllRepairActiveCar().then((cars) => {
+    carAPI.getAllZombieActiveCar().then((cars) => {
       setCars(cars)
       setLoading(false)
     })
@@ -23,8 +23,8 @@ const Repair = () => {
       <Header />
       <Container sx={{ py: 2 }} maxWidth='lg'>
         <Stack direction='row' spacing={2}>
-          <Box component={'img'} src='/assets/repair.png' sx={{ mr: 2, height: 80 }} />
-          <Typography variant='h2'>реабіліТАЧКИ</Typography>
+          <Box component={'img'} src='/assets/zombie.png' sx={{ mr: 2, height: 80 }} />
+          <Typography variant='h2'>зомбіТАЧКИ</Typography>
         </Stack>
         <RepairCarAlbum loading={loading} cars={cars} />
       </Container>
@@ -33,4 +33,4 @@ const Repair = () => {
   )
 }
 
-export default Repair
+export default Zombie

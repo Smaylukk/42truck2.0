@@ -17,7 +17,13 @@ import {
 import carAPI from '../http/carAPI'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ADMIN_ROUTE } from '../utils/consts'
-import { CarColor, CarStatus, ICarCreateUpdate, ISponsorDocument } from '../utils/interfaces'
+import {
+  CarColor,
+  CarStatus,
+  CarType,
+  ICarCreateUpdate,
+  ISponsorDocument,
+} from '../utils/interfaces'
 import ConfirmationDialog from '../components/ConfirmationDialog'
 import Typography from '@mui/material/Typography'
 import sponsorAPI from '../http/sponsorAPI'
@@ -27,8 +33,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import UploadImageButton from '../components/UploadImageButton'
 import pictureAPI from '../http/uploadAPI'
 import config from '../utils/config'
+import { getCarTypeLabel } from '../utils/utils'
 
-const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => {
+const CarEditPage: React.FC = () => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
   const [numberSort, setNumberSort] = useState(0)
@@ -52,6 +59,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
   const [contactEmail, setContactEmail] = useState('')
+  const [carType, setCarType] = useState<CarType>(CarType.car)
 
   const { carId } = useParams()
   const navigate = useNavigate()
@@ -86,6 +94,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
         setContactName(data.contactName || '')
         setContactPhone(data.contactPhone || '')
         setContactEmail(data.contactEmail || '')
+        setCarType(data.carType)
       })
     }
   }, [idCar])
@@ -132,7 +141,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
     const data: ICarCreateUpdate = {
       name,
       militaryBase,
-      number: isRepair ? (number ? number : `Repair_${numberSort}`) : number,
+      number: carType !== CarType.car ? (number ? number : `Repair_${numberSort}`) : number,
       numberSort,
       carName,
       status,
@@ -145,10 +154,10 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
       sponsors,
       pictures,
       color,
-      isRepair,
       contactName,
       contactPhone,
       contactEmail,
+      carType,
     }
 
     return idCar ? await carAPI.changeCar(idCar, data) : await carAPI.createCar(data)
@@ -226,7 +235,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               required
             />
           </Grid>
-          {!isRepair && (
+          {carType === CarType.car && (
             <Grid item xs={12} sm={3}>
               <TextField
                 label='Номер авто'
@@ -237,7 +246,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               />
             </Grid>
           )}
-          <Grid item xs={12} sm={isRepair ? 5 : 3}>
+          <Grid item xs={12} sm={carType !== CarType.car ? 5 : 3}>
             <TextField
               label='Марка'
               value={name}
@@ -246,7 +255,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} sm={isRepair ? 4 : 3}>
+          <Grid item xs={12} sm={carType !== CarType.car ? 4 : 3}>
             <TextField
               label='Статус'
               value={status}
@@ -254,17 +263,30 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               select
               onChange={(e) => setStatus(e.target.value as CarStatus)}
             >
-              {!isRepair && <MenuItem value={CarStatus.find}>{CarStatus.find}</MenuItem>}
-              {!isRepair && <MenuItem value={CarStatus.transport}>{CarStatus.transport}</MenuItem>}
-              {!isRepair && <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>}
+              <MenuItem value={CarStatus.find}>{CarStatus.find}</MenuItem>
+              <MenuItem value={CarStatus.transport}>{CarStatus.transport}</MenuItem>
+              <MenuItem value={CarStatus.buy}>{CarStatus.buy}</MenuItem>
               <MenuItem value={CarStatus.repair}>{CarStatus.repair}</MenuItem>
-              {!isRepair && <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>}
-              {!isRepair && <MenuItem value={CarStatus.death}>{CarStatus.death}</MenuItem>}
-              {isRepair && <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>}
-              {isRepair && <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>}
+              <MenuItem value={CarStatus.done}>{CarStatus.done}</MenuItem>
+              <MenuItem value={CarStatus.death}>{CarStatus.death}</MenuItem>
+              <MenuItem value={CarStatus.queue}>{CarStatus.queue}</MenuItem>
+              <MenuItem value={CarStatus.finish}>{CarStatus.finish}</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label='Тип'
+              value={carType}
+              fullWidth
+              select
+              onChange={(e) => setCarType(+e.target.value)}
+            >
+              <MenuItem value={CarType.car}>{getCarTypeLabel(CarType.car)}</MenuItem>
+              <MenuItem value={CarType.repair}>{getCarTypeLabel(CarType.repair)}</MenuItem>
+              <MenuItem value={CarType.zombie}>{getCarTypeLabel(CarType.zombie)}</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={3}>
             <TextField
               label='Військова частина'
               value={militaryBase}
@@ -272,32 +294,29 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               onChange={(e) => setMilitaryBase(e.target.value)}
             />
           </Grid>
-          {!isRepair && (
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label='Назва машини'
-                value={carName}
-                fullWidth
-                onChange={(e) => setCarName(e.target.value)}
-              />
-            </Grid>
-          )}
-          {!isRepair && (
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label='Колір'
-                value={color}
-                fullWidth
-                select
-                onChange={(e) => setColor(e.target.value as CarColor)}
-              >
-                <MenuItem value={CarColor.gray}>{CarColor.gray}</MenuItem>
-                <MenuItem value={CarColor.green}>{CarColor.green}</MenuItem>
-                <MenuItem value={CarColor.black}>{CarColor.black}</MenuItem>
-                <MenuItem value={CarColor.not}>{CarColor.not}</MenuItem>
-              </TextField>
-            </Grid>
-          )}
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label='Назва машини'
+              value={carName}
+              fullWidth
+              onChange={(e) => setCarName(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              label='Колір'
+              value={color}
+              fullWidth
+              select
+              onChange={(e) => setColor(e.target.value as CarColor)}
+            >
+              <MenuItem value={CarColor.gray}>{CarColor.gray}</MenuItem>
+              <MenuItem value={CarColor.green}>{CarColor.green}</MenuItem>
+              <MenuItem value={CarColor.black}>{CarColor.black}</MenuItem>
+              <MenuItem value={CarColor.not}>{CarColor.not}</MenuItem>
+            </TextField>
+          </Grid>
+
           <Grid item xs={4} sm={4}>
             <TextField
               label='Ремонт'
@@ -316,7 +335,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               onChange={(e) => setAmountTires(+e.target.value)}
             />
           </Grid>
-          {!isRepair && (
+          {carType === CarType.car && (
             <Grid item xs={4} sm={4}>
               <TextField
                 label='Фарбування'
@@ -336,7 +355,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
               onChange={(e) => setAddEquip(e.target.value)}
             />
           </Grid>
-          {!isRepair && (
+          {carType === CarType.car && (
             <Grid item xs={12}>
               <TextField
                 label='Історія/опис тачки'
@@ -375,7 +394,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
             />
           </Grid>
           {/*фото*/}
-          <Grid item xs={12} md={isRepair ? 12 : 6}>
+          <Grid item xs={12} md={carType !== CarType.car ? 12 : 6}>
             <Typography>Фото-історія тачки</Typography>
             <UploadImageButton caption={'Виберіть фото тачки'} handleImageChange={carImageAdd} />
 
@@ -414,7 +433,7 @@ const CarEditPage: React.FC<{ isRepair?: boolean }> = ({ isRepair = false }) => 
             </ImageList>
           </Grid>
           {/*спонсори*/}
-          {!isRepair && (
+          {carType === CarType.car && (
             <Grid item xs={12} md={6}>
               <Typography>
                 Спонсори та меценати, які надали суттєву частку суми для купівлі цієї тачки

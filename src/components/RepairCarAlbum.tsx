@@ -8,7 +8,6 @@ import {
   SelectChangeEvent,
   Box,
   Grid,
-  Container,
 } from '@mui/material'
 import { CarStatus, ICarDocument } from '../utils/interfaces'
 import { RepairCarCard } from './RepairCarCard'
@@ -63,29 +62,26 @@ export const RepairCarAlbum: FC<{
 
   return (
     <Fragment>
-      <Container sx={{ py: 2 }} maxWidth='lg'>
-        <h1>реабіліТАЧКИ</h1>
-        <FormControl fullWidth sx={{ py: 2 }}>
-          <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
-          <Select
-            labelId='status-select-label'
-            id='status-select'
-            value={statusFilter}
-            label='Age'
-            onChange={handleChange}
-          >
-            <MenuItem value={0}>Всі</MenuItem>
-            <MenuItem value={1}>{CarStatus.queue}</MenuItem>
-            <MenuItem value={2}>{CarStatus.repair}</MenuItem>
-            <MenuItem value={3}>{CarStatus.finish}</MenuItem>
-          </Select>
-        </FormControl>
-        <Grid container spacing={2}>
-          {filterCar.map((car) => (
-            <RepairCarCard key={car.number} car={car} />
-          ))}
-        </Grid>
-      </Container>
+      <FormControl fullWidth sx={{ py: 2 }}>
+        <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
+        <Select
+          labelId='status-select-label'
+          id='status-select'
+          value={statusFilter}
+          label='Age'
+          onChange={handleChange}
+        >
+          <MenuItem value={0}>Всі</MenuItem>
+          <MenuItem value={1}>{CarStatus.queue}</MenuItem>
+          <MenuItem value={2}>{CarStatus.repair}</MenuItem>
+          <MenuItem value={3}>{CarStatus.finish}</MenuItem>
+        </Select>
+      </FormControl>
+      <Grid container spacing={2}>
+        {filterCar.map((car) => (
+          <RepairCarCard key={car.number} car={car} />
+        ))}
+      </Grid>
     </Fragment>
   )
 }

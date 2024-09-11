@@ -3,13 +3,13 @@ import { Header } from '../components/Header'
 import Box from '@mui/material/Box'
 import { HtmlText } from '../components/HtmlText'
 
-const Requisites = () => {
+const ThankingCommunity = () => {
   return (
     <Box>
       <Header />
-      <HtmlText name={'requisites'} />
+      <HtmlText name={'thankCommunity'} />
     </Box>
   )
 }
 
-export default Requisites
+export default ThankingCommunity

@@ -61,12 +61,12 @@ export interface ICarDocument {
   status: CarStatus
   description: string
   color: CarColor
-  isRepair: boolean
   pictures: string[]
   sponsors: string[]
   contactName?: string
   contactPhone?: string
   contactEmail?: string
+  carType: CarType
 }
 
 export interface ICarCreateUpdate {
@@ -83,12 +83,12 @@ export interface ICarCreateUpdate {
   description: string
   active: boolean
   color: CarColor
-  isRepair: boolean
   pictures: string[]
   sponsors: string[]
   contactName?: string
   contactPhone?: string
   contactEmail?: string
+  carType: CarType
 }
 
 export enum CarStatus {
@@ -136,4 +136,10 @@ export interface IGratitudeCreateUpdate {
 export interface GratitudePictureList {
   name: string
   url: string
+}
+
+export enum CarType {
+  car,
+  repair,
+  zombie,
 }

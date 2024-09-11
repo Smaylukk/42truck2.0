@@ -17,7 +17,6 @@ export const CarAlbum: FC<{
   const [filterCar, setFilterCar] = useState<ICarDocument[]>([])
   const handleChange = (event: SelectChangeEvent<number>) => {
     setStatusFilter(event.target.value as number)
-    console.log(event.target.value)
   }
 
   useEffect(() => {

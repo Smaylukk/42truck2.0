@@ -18,6 +18,10 @@ import {
   EDIT_GRATITUDE_ROUTE,
   ADD_GRATITUDE_ROUTE,
   GRATITUDE_ROUTE,
+  EDIT_ZOMBIE_CAR_ROUTE,
+  ADD_ZOMBIE_CAR_ROUTE,
+  ZOMBIE_ROUTE,
+  THANK_COMMUNITY_ROUTE,
 } from './consts'
 import Home from '../pages/Home'
 import Auth from '../pages/Auth'
@@ -32,15 +36,19 @@ import { Sponsors } from '../pages/Sponsors'
 import Repair from '../pages/Repair'
 import GratitudeEditPage from '../pages/GratitudeEditPage'
 import { Gratitude } from '../pages/Gratitude'
+import Zombie from '../pages/Zombie'
+import ThankingCommunity from '../pages/ThankingCommunity'
 
 export const publicRoutes: RouteObject[] = [
   { path: LOGIN_ROUTE, element: <Auth /> },
   { path: HOME_ROUTE, element: <Home /> },
   { path: REPAIR_ROUTE, element: <Repair /> },
+  { path: ZOMBIE_ROUTE, element: <Zombie /> },
   { path: CAR_ROUTE, element: <CarInfo /> },
   { path: SPONSOR_LIST_ROUTE, element: <Sponsors /> },
   { path: REQUISITES_ROUTE, element: <Requisites /> },
   { path: GRATITUDE_ROUTE, element: <Gratitude /> },
+  { path: THANK_COMMUNITY_ROUTE, element: <ThankingCommunity /> },
 ]
 export const authRoutes: RouteObject[] = [
   ...publicRoutes,
@@ -49,8 +57,10 @@ export const authRoutes: RouteObject[] = [
   { path: ADD_SPONSOR_ROUTE, element: <SponsorEditPage /> },
   { path: EDIT_CAR_ROUTE, element: <CarEditPage /> },
   { path: ADD_CAR_ROUTE, element: <CarEditPage /> },
-  { path: EDIT_REPAIR_CAR_ROUTE, element: <CarEditPage isRepair={true} /> },
-  { path: ADD_REPAIR_CAR_ROUTE, element: <CarEditPage isRepair={true} /> },
+  { path: EDIT_REPAIR_CAR_ROUTE, element: <CarEditPage /> },
+  { path: ADD_REPAIR_CAR_ROUTE, element: <CarEditPage /> },
+  { path: EDIT_ZOMBIE_CAR_ROUTE, element: <CarEditPage /> },
+  { path: ADD_ZOMBIE_CAR_ROUTE, element: <CarEditPage /> },
   { path: EDIT_USER_ROUTE, element: <UserEditPage /> },
   { path: ADD_USER_ROUTE, element: <UserEditPage /> },
   { path: EDIT_GRATITUDE_ROUTE, element: <GratitudeEditPage /> },

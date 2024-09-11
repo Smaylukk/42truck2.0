@@ -1,4 +1,4 @@
-import { CarStatus } from './interfaces'
+import { CarStatus, CarType } from './interfaces'
 
 export const StatusColor = new Map<CarStatus, string>([
   [CarStatus.find, 'gray'],
@@ -16,4 +16,14 @@ export const configApp = {
   googleSheetId: process.env.GOOGLE_SHEET_ID || '',
   googlePrivateKey: process.env.GOOGLE_PRIVATE_KEY || '',
   googleApiKey: process.env.GOOGLE_API_KEY || '',
+}
+
+const carTypeLabels: Record<CarType, string> = {
+  [CarType.car]: 'Тачка',
+  [CarType.repair]: 'Реабілітачка',
+  [CarType.zombie]: 'Зомбітачка',
+}
+
+export const getCarTypeLabel = (type: CarType): string => {
+  return carTypeLabels[type] || 'Невідомий тип'
 }
