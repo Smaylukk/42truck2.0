@@ -394,8 +394,8 @@ const CarEditPage: React.FC = () => {
             />
           </Grid>
           {/*фото*/}
-          <Grid item xs={12} md={carType !== CarType.car ? 12 : 6}>
-            <Typography>Фото-історія тачки</Typography>
+          <Grid item xs={12} md={carType == CarType.repair ? 12 : 6}>
+            <Typography variant='h6'>Фото-історія тачки</Typography>
             <UploadImageButton caption={'Виберіть фото тачки'} handleImageChange={carImageAdd} />
 
             <ImageList
@@ -433,11 +433,9 @@ const CarEditPage: React.FC = () => {
             </ImageList>
           </Grid>
           {/*спонсори*/}
-          {carType === CarType.car && (
+          {(carType === CarType.car || carType === CarType.zombie) && (
             <Grid item xs={12} md={6}>
-              <Typography>
-                Спонсори та меценати, які надали суттєву частку суми для купівлі цієї тачки
-              </Typography>
+              <Typography variant='h6'>Спонсори та меценати</Typography>
               <SponsorSelector onAdd={handleAddSponsor} availableSponsors={availableSponsors} />
               {sponsors.map((el, index) => (
                 <Grid container sx={{ mt: 1 }} key={index}>

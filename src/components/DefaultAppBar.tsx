@@ -1,5 +1,4 @@
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import { IconButton, Menu, MenuItem } from '@mui/material'
@@ -200,30 +199,35 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             </MenuItem>
           </Menu>
         </Box>
-        <Box
-          component={'img'}
-          src='/assets/42.png'
-          sx={{ mr: 2, height: 40, display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}
-        />
-        <Typography
-          variant='h6'
-          color='inherit'
-          noWrap
-          sx={{
-            flexGrow: { xs: 1, lg: 0 },
-            display: { xs: 'block' },
+        <NavLink
+          to={'/'}
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            flexGrow: 1,
           }}
         >
-          <NavLink
-            to={'/'}
-            style={{
-              textDecoration: 'none',
-              color: 'inherit',
-            }}
-          >
-            42 тачки
-          </NavLink>
-        </Typography>
+          <Box component={'img'} src='/assets/42.png' sx={{ mr: 2, height: 40, flexGrow: 1 }} />
+        </NavLink>
+        {/*<Typography*/}
+        {/*  variant='h6'*/}
+        {/*  color='inherit'*/}
+        {/*  noWrap*/}
+        {/*  sx={{*/}
+        {/*    flexGrow: { xs: 1, lg: 0 },*/}
+        {/*    display: { xs: 'block' },*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <NavLink*/}
+        {/*    to={'/'}*/}
+        {/*    style={{*/}
+        {/*      textDecoration: 'none',*/}
+        {/*      color: 'inherit',*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    42 тачки*/}
+        {/*  </NavLink>*/}
+        {/*</Typography>*/}
         <Box
           sx={{
             flexGrow: 5,
@@ -232,10 +236,20 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
           }}
         >
           <NavLink to={REPAIR_ROUTE}>
-            <Button variant='contained'>реабіліТАЧКИ</Button>
+            <Button
+              variant='contained'
+              startIcon={<Box component={'img'} src='/assets/repair.png' sx={{ height: 20 }} />}
+            >
+              реабіліТАЧКИ
+            </Button>
           </NavLink>
           <NavLink to={ZOMBIE_ROUTE}>
-            <Button variant='contained'>зомбіТАЧКИ</Button>
+            <Button
+              variant='contained'
+              startIcon={<Box component={'img'} src='/assets/zombie.png' sx={{ height: 20 }} />}
+            >
+              зомбіТАЧКИ
+            </Button>
           </NavLink>
           <NavLink to={SPONSOR_LIST_ROUTE}>
             <Button variant='contained'>Спонсори</Button>

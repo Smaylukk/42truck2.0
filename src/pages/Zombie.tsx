@@ -26,6 +26,10 @@ const Zombie = () => {
           <Box component={'img'} src='/assets/zombie.png' sx={{ mr: 2, height: 80 }} />
           <Typography variant='h2'>зомбіТАЧКИ</Typography>
         </Stack>
+        <Typography variant='subtitle1' sx={{ py: 1 }}>
+          Проєкт ремонту і передачі автівок радянського періоду у підрозділи, що здатні з ними
+          ладнати.
+        </Typography>
         <RepairCarAlbum loading={loading} cars={cars} />
       </Container>
       <HtmlText name={'requisites'} />

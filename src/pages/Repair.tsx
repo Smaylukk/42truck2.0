@@ -26,6 +26,9 @@ const Repair = () => {
           <Box component={'img'} src='/assets/repair.png' sx={{ mr: 2, height: 80 }} />
           <Typography variant='h2'>реабіліТАЧКИ</Typography>
         </Stack>
+        <Typography variant='subtitle1' sx={{ py: 1 }}>
+          Проєкт середніх та важких ремонтів автомобілів, що вже служать в ЗСУ
+        </Typography>
         <RepairCarAlbum loading={loading} cars={cars} />
       </Container>
       <HtmlText name={'requisites'} />
