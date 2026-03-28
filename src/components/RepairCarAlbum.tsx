@@ -1,14 +1,5 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
-import {
-  Fade,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Box,
-  Grid,
-} from '@mui/material'
+import { Fade, Box, Grid, Chip } from '@mui/material'
 import { CarStatus, ICarDocument } from '../utils/interfaces'
 import { RepairCarCard } from './RepairCarCard'
 
@@ -20,9 +11,28 @@ export const RepairCarAlbum: FC<{
   const [fadeLoader, setFadeLoader] = useState(true)
   const [filterCar, setFilterCar] = useState<ICarDocument[]>([])
 
-  const handleChange = (event: SelectChangeEvent<number>) => {
-    setStatusFilter(event.target.value as number)
+  // Підрахунок кількості авто для кожного статусу
+  const getCountByStatus = (status: CarStatus | null) => {
+    if (status === null) return cars.length
+    return cars.filter((car) => car.status === status).length
   }
+
+  const filters = [
+    { id: 0, label: 'Всі', count: getCountByStatus(null) },
+    { id: 1, label: 'В черзі', count: getCountByStatus(CarStatus.queue), status: CarStatus.queue },
+    {
+      id: 2,
+      label: 'В ремонті',
+      count: getCountByStatus(CarStatus.repair),
+      status: CarStatus.repair,
+    },
+    {
+      id: 3,
+      label: 'Завершено',
+      count: getCountByStatus(CarStatus.finish),
+      status: CarStatus.finish,
+    },
+  ]
 
   useEffect(() => {
     setFilterCar(cars)
@@ -62,24 +72,69 @@ export const RepairCarAlbum: FC<{
 
   return (
     <Fragment>
-      <FormControl fullWidth sx={{ py: 2 }}>
-        <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
-        <Select
-          labelId='status-select-label'
-          id='status-select'
-          value={statusFilter}
-          label='Age'
-          onChange={handleChange}
-        >
-          <MenuItem value={0}>Всі</MenuItem>
-          <MenuItem value={1}>{CarStatus.queue}</MenuItem>
-          <MenuItem value={2}>{CarStatus.repair}</MenuItem>
-          <MenuItem value={3}>{CarStatus.finish}</MenuItem>
-        </Select>
-      </FormControl>
+      {/* Filter Chips */}
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1.5,
+          overflowX: 'auto',
+          pb: 1.5,
+          pt: 2,
+          '&::-webkit-scrollbar': {
+            height: 6,
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f1f1f1',
+            borderRadius: 10,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#888',
+            borderRadius: 10,
+            '&:hover': {
+              backgroundColor: '#555',
+            },
+          },
+        }}
+      >
+        {filters.map((filter) => (
+          <Chip
+            key={filter.id}
+            label={`${filter.label} (${filter.count})`}
+            onClick={() => setStatusFilter(filter.id)}
+            sx={{
+              padding: '8px 16px',
+              height: 'auto',
+              borderRadius: '20px',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              ...(statusFilter === filter.id
+                ? {
+                    backgroundColor: 'text.primary',
+                    color: 'background.paper',
+                    '&:hover': {
+                      backgroundColor: 'text.primary',
+                    },
+                  }
+                : {
+                    backgroundColor: 'background.paper',
+                    color: 'text.secondary',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    '&:hover': {
+                      borderColor: 'primary.main',
+                      color: 'primary.main',
+                    },
+                  }),
+            }}
+          />
+        ))}
+      </Box>
       <Grid container spacing={2}>
         {filterCar.map((car) => (
-          <RepairCarCard key={car.number} car={car} />
+          <RepairCarCard key={car.id} car={car} />
         ))}
       </Grid>
     </Fragment>

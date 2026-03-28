@@ -1,11 +1,11 @@
 import Toolbar from '@mui/material/Toolbar'
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
-import { IconButton, Menu, MenuItem } from '@mui/material'
+import { Container, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import MenuIcon from '@mui/icons-material/Menu'
 import ThemeModeSwitch from '../components/ThemeModeSwitch'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IAppBarProps, IThemeProps } from '../utils/interfaces'
 import Button from '@mui/material/Button'
 import TelegramIcon from '@mui/icons-material/Telegram'
@@ -13,6 +13,7 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import {
   ADMIN_ROUTE,
   GRATITUDE_ROUTE,
+  HOME_ROUTE,
   REPAIR_ROUTE,
   REQUISITES_ROUTE,
   SPONSOR_LIST_ROUTE,
@@ -36,241 +37,255 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
 
   const navigate = useNavigate()
   return (
-    <AppBar position='fixed'>
-      <Toolbar>
-        <Box sx={{ flexGrow: 0, display: 'flex' }}>
-          <IconButton
-            size='large'
-            aria-label='account of current user'
-            aria-controls='menu-appbar'
-            aria-haspopup='true'
-            onClick={handleOpenNavMenu}
-            color='inherit'
+    <AppBar
+      position='sticky'
+      sx={{
+        backgroundColor: 'background.paper',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+        color: 'text.primary',
+      }}
+    >
+      <Container maxWidth='xl' sx={{ px: { xs: 2, sm: 3 } }}>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <Link
+            to={HOME_ROUTE}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            id='menu-appbar'
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: 'block',
-            }}
-          >
-            <MenuItem>
-              <Button
-                variant='contained'
+            <Box
+              component='img'
+              src='/assets/42.png'
+              alt='42 Trucks'
+              sx={{ height: 40, width: 60 }}
+            />
+          </Link>
+
+          {/* Desktop Navigation Links */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, alignItems: 'center' }}>
+            <Link to={HOME_ROUTE} style={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  '&:hover': { color: 'primary.main' },
+                  transition: '0.3s',
+                }}
+              >
+                Автопарк
+              </Typography>
+            </Link>
+            <Link to={REPAIR_ROUTE} style={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  '&:hover': { color: 'primary.main' },
+                  transition: '0.3s',
+                }}
+              >
+                реабіліТАЧКИ
+              </Typography>
+            </Link>
+            <Link to={ZOMBIE_ROUTE} style={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  '&:hover': { color: 'primary.main' },
+                  transition: '0.3s',
+                }}
+              >
+                зомбіТАЧКИ
+              </Typography>
+            </Link>
+            <Link to={GRATITUDE_ROUTE} style={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  '&:hover': { color: 'primary.main' },
+                  transition: '0.3s',
+                }}
+              >
+                Подяки
+              </Typography>
+            </Link>
+          </Box>
+
+          {/* Right side: CTA + Theme Switcher + Mobile Menu */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* CTA Button - only desktop */}
+            <Button
+              component={Link}
+              to={REQUISITES_ROUTE}
+              variant='contained'
+              sx={{
+                display: { xs: 'none', md: 'inline-flex' },
+                backgroundColor: 'primary.main',
+                color: 'white',
+                borderRadius: '50px',
+                padding: '10px 24px',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: 'primary.dark',
+                  transform: 'translateY(-1px)',
+                },
+                transition: '0.3s',
+              }}
+            >
+              Підтримати проєкт
+            </Button>
+
+            {/* Theme Switcher */}
+            <ThemeModeSwitch useDark={useDark} onChange={themeChanger} />
+
+            {/* Mobile Menu Button */}
+            <IconButton
+              size='large'
+              aria-label='menu'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
+              onClick={handleOpenNavMenu}
+              sx={{ display: 'flex' }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            {/* Mobile Menu */}
+            <Menu
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+            >
+              <MenuItem
+                onClick={() => {
+                  navigate(HOME_ROUTE)
+                  handleCloseNavMenu()
+                }}
+              >
+                <Typography>Автопарк</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(REPAIR_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                реабіліТАЧКИ
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
+                <Typography>реабіліТАЧКИ</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(ZOMBIE_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                зомбіТАЧКИ
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
+                <Typography>зомбіТАЧКИ</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(SPONSOR_LIST_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                Спонсори
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
+                <Typography>Спонсори</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(REQUISITES_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                Реквізити
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
+                <Typography>Реквізити</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(GRATITUDE_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                Подяки від ЗСУ
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
+                <Typography>Подяки від ЗСУ</Typography>
+              </MenuItem>
+              <MenuItem
                 onClick={() => {
                   navigate(THANK_COMMUNITY_ROUTE)
                   handleCloseNavMenu()
                 }}
-                fullWidth
               >
-                Подяки спільноті
-              </Button>
-            </MenuItem>
-            {isAuth && (
-              <MenuItem>
-                <Button
-                  variant='contained'
+                <Typography>Подяки спільноті</Typography>
+              </MenuItem>
+              {isAuth && (
+                <MenuItem
                   onClick={() => {
                     navigate(ADMIN_ROUTE)
                     handleCloseNavMenu()
                   }}
-                  fullWidth
                 >
-                  Адмінка
+                  <Typography>Адмінка</Typography>
+                </MenuItem>
+              )}
+              <MenuItem>
+                <Button
+                  href='https://t.me/mouselab'
+                  target='_blank'
+                  startIcon={<TelegramIcon />}
+                  fullWidth
+                  size='small'
+                >
+                  Антон Сененко
                 </Button>
               </MenuItem>
-            )}
-            <MenuItem>
-              <Button
-                variant='contained'
-                href='https://t.me/mouselab'
-                target='_blank'
-                startIcon={<TelegramIcon />}
-                fullWidth
-              >
-                Антон Сененко
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
-                href='https://www.facebook.com/senenkoanton'
-                target='_blank'
-                startIcon={<FacebookIcon />}
-                fullWidth
-              >
-                Антон Сененко
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
-                href='https://t.me/martin_brest_pehota'
-                target='_blank'
-                startIcon={<TelegramIcon />}
-                fullWidth
-              >
-                Мартін Брест
-              </Button>
-            </MenuItem>
-            <MenuItem>
-              <Button
-                variant='contained'
-                href='https://www.facebook.com/profile.php?id=100006448650648'
-                target='_blank'
-                startIcon={<FacebookIcon />}
-                fullWidth
-              >
-                Мартін Брест
-              </Button>
-            </MenuItem>
-          </Menu>
-        </Box>
-        <NavLink
-          to={'/'}
-          style={{
-            textDecoration: 'none',
-            color: 'inherit',
-            flexGrow: 1,
-          }}
-        >
-          <Box component={'img'} src='/assets/42.png' sx={{ mr: 2, height: 40, flexGrow: 1 }} />
-        </NavLink>
-        {/*<Typography*/}
-        {/*  variant='h6'*/}
-        {/*  color='inherit'*/}
-        {/*  noWrap*/}
-        {/*  sx={{*/}
-        {/*    flexGrow: { xs: 1, lg: 0 },*/}
-        {/*    display: { xs: 'block' },*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <NavLink*/}
-        {/*    to={'/'}*/}
-        {/*    style={{*/}
-        {/*      textDecoration: 'none',*/}
-        {/*      color: 'inherit',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    42 тачки*/}
-        {/*  </NavLink>*/}
-        {/*</Typography>*/}
-        <Box
-          sx={{
-            flexGrow: 5,
-            display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex', gridGap: 20 },
-            ml: 5,
-          }}
-        >
-          <NavLink to={REPAIR_ROUTE}>
-            <Button
-              variant='contained'
-              startIcon={<Box component={'img'} src='/assets/repair.png' sx={{ height: 20 }} />}
-            >
-              реабіліТАЧКИ
-            </Button>
-          </NavLink>
-          <NavLink to={ZOMBIE_ROUTE}>
-            <Button
-              variant='contained'
-              startIcon={<Box component={'img'} src='/assets/zombie.png' sx={{ height: 20 }} />}
-            >
-              зомбіТАЧКИ
-            </Button>
-          </NavLink>
-          <NavLink to={SPONSOR_LIST_ROUTE}>
-            <Button variant='contained'>Спонсори</Button>
-          </NavLink>
-          <NavLink to={REQUISITES_ROUTE}>
-            <Button variant='contained'>Реквізити</Button>
-          </NavLink>
-          <NavLink to={GRATITUDE_ROUTE}>
-            <Button variant='contained'>Подяки від ЗСУ</Button>
-          </NavLink>
-          <NavLink to={THANK_COMMUNITY_ROUTE}>
-            <Button variant='contained'>Подяки спільноті</Button>
-          </NavLink>
-          {isAuth && (
-            <NavLink to={ADMIN_ROUTE}>
-              <Button variant='contained'>Адмінка</Button>
-            </NavLink>
-          )}
-        </Box>
-        <ThemeModeSwitch useDark={useDark} onChange={themeChanger} />
-      </Toolbar>
+              <MenuItem>
+                <Button
+                  href='https://www.facebook.com/senenkoanton'
+                  target='_blank'
+                  startIcon={<FacebookIcon />}
+                  fullWidth
+                  size='small'
+                >
+                  Антон Сененко (FB)
+                </Button>
+              </MenuItem>
+              <MenuItem>
+                <Button
+                  href='https://t.me/martin_brest_pehota'
+                  target='_blank'
+                  startIcon={<TelegramIcon />}
+                  fullWidth
+                  size='small'
+                >
+                  Мартін Брест
+                </Button>
+              </MenuItem>
+              <MenuItem>
+                <Button
+                  href='https://www.facebook.com/profile.php?id=100006448650648'
+                  target='_blank'
+                  startIcon={<FacebookIcon />}
+                  fullWidth
+                  size='small'
+                >
+                  Мартін Брест (FB)
+                </Button>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   )
 }

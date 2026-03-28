@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Header } from '../components/Header'
 import { CarAlbum } from '../components/CarAlbum'
+import { StatsCards } from '../components/StatsCards'
 import Box from '@mui/material/Box'
 import { ICarDocument } from '../utils/interfaces'
 import carAPI from '../http/carAPI'
@@ -17,7 +17,7 @@ const Home = () => {
   }, [])
   return (
     <Box>
-      <Header />
+      {!loading && <StatsCards cars={cars} />}
       <CarAlbum loading={loading} cars={cars} />
       <HtmlText name={'requisites'} />
     </Box>

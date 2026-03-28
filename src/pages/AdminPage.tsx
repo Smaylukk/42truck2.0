@@ -29,7 +29,7 @@ const AdminPage = () => {
   }, [])
   return (
     <Box sx={{ width: '100%', pt: 8 }}>
-      <Container maxWidth='md'>
+      <Container maxWidth='md' sx={{ px: { xs: 2, sm: 3 } }}>
         <Typography></Typography>
       </Container>
       <Tabs

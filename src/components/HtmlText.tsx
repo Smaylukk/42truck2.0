@@ -11,9 +11,9 @@ export const HtmlText: FC<{ name: string }> = ({ name }) => {
     })
   }, [name])
   return (
-    <Container maxWidth='md'>
-      <Paper elevation={8} sx={{ px: 2 }}>
-        {ReactHtmlParser(content)}
+    <Container maxWidth='md' sx={{ px: { xs: 2, sm: 3 } }}>
+      <Paper elevation={8} sx={{ px: { xs: 2, sm: 3 } }}>
+        <>{ReactHtmlParser(content)}</>
       </Paper>
     </Container>
   )

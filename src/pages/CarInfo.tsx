@@ -1,245 +1,404 @@
 import * as React from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { useEffect, useState } from 'react'
-import { CarColor, CarStatus, IPrevNextCar } from '../utils/interfaces'
-import { StatusColor } from '../utils/utils'
-import { useNavigate, useParams } from 'react-router-dom'
+import { CarStatus, ICarDocument } from '../utils/interfaces'
+import { useParams } from 'react-router-dom'
 import carAPI from '../http/carAPI'
 import config from '../utils/config'
 import SponsorCard from '../components/SponsorCard'
-import LightGallery from 'lightgallery/react'
-// import styles
-import 'lightgallery/css/lightgallery.css'
-import 'lightgallery/css/lg-zoom.css'
-import 'lightgallery/css/lg-thumbnail.css'
-// plugins
-import lgThumbnail from 'lightgallery/plugins/thumbnail'
-import lgZoom from 'lightgallery/plugins/zoom'
-import Button from '@mui/material/Button'
-import { CAR_ROUTE } from '../utils/consts'
-import Stack from '@mui/material/Stack'
+import { CarNavigation } from '../components/CarNavigation'
 
 export const CarInfo = () => {
-  const [name, setName] = useState('')
-  const [number, setNumber] = useState('')
-  const [militaryBase, setMilitaryBase] = useState('')
-  const [carName, setCarName] = useState('')
-  const [status, setStatus] = useState<CarStatus>(CarStatus.find)
-  const [addEquip, setAddEquip] = useState('')
-  const [amountDyeing, setAmountDyeing] = useState(0)
-  const [amountTires, setAmountTires] = useState(0)
-  const [amountRepair, setAmountRepair] = useState(0)
-  const [color, setColor] = useState<CarColor>(CarColor.not)
-  const [sponsors, setSponsors] = useState<string[]>([])
-  const [pictures, setPictures] = useState<string[]>([])
-  const [description, setDescription] = useState('')
-  const [prevCar, setPrevCar] = useState<IPrevNextCar>({} as IPrevNextCar)
-  const [nextCar, setNextCar] = useState<IPrevNextCar>({} as IPrevNextCar)
+  const [car, setCar] = useState<ICarDocument | null>(null)
+  const [allCars, setAllCars] = useState<{ id: string; number: string }[]>([])
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0)
   const { carId } = useParams()
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (carId) {
       carAPI.getOneCar(carId).then((data) => {
-        setName(data.name)
-        setMilitaryBase(data.militaryBase || '')
-        setNumber(data.number)
-        setCarName(data.carName)
-        setStatus(data.status)
-        setAddEquip(data.addEquip)
-        setAmountDyeing(data.amountDyeing)
-        setAmountTires(data.amountTires)
-        setAmountRepair(data.amountRepair)
-        setSponsors(data.sponsors)
-        setPictures(data.pictures)
-        setDescription(data.description)
-        setColor(data.color)
+        setCar(data)
       })
 
-      carAPI.getPrevCar(carId).then((prevCar) => {
-        if (prevCar) {
-          setPrevCar(prevCar)
-        }
-      })
-
-      carAPI.getNextCar(carId).then((nextCar) => {
-        if (nextCar) {
-          setNextCar(nextCar)
-        }
+      // Завантажити всі авто для навігації
+      carAPI.getAllActiveCar().then((cars) => {
+        setAllCars(cars.map((c) => ({ id: c.id, number: c.number })))
       })
     }
   }, [carId])
+
+  if (!car) {
+    return (
+      <Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <Typography>Завантаження...</Typography>
+        </Box>
+      </Box>
+    )
+  }
+
+  // Мапінг статусів
+  const statusConfig = {
+    [CarStatus.find]: { label: 'Пошук', color: '#6B7280', bgColor: '#F3F4F6' },
+    [CarStatus.buy]: { label: 'Знайшли', color: '#EF4444', bgColor: '#FEE2E2' },
+    [CarStatus.transport]: { label: 'Перегон', color: '#39b5dd', bgColor: '#E0F2FE' },
+    [CarStatus.repair]: { label: 'В ремонті', color: '#F59E0B', bgColor: '#FEF3C7' },
+    [CarStatus.done]: { label: 'У військах', color: '#10B981', bgColor: '#ECFDF5' },
+    [CarStatus.finish]: { label: 'Завершено', color: '#10B981', bgColor: '#ECFDF5' },
+    [CarStatus.death]: { label: 'Відслужила', color: '#6666cc', bgColor: '#EDE9FE' },
+    [CarStatus.queue]: { label: 'В черзі', color: '#EF4444', bgColor: '#FEE2E2' },
+  }
+
+  const currentStatus = statusConfig[car.status as CarStatus] || {
+    label: car.status,
+    color: '#6B7280',
+    bgColor: '#F3F4F6',
+  }
+  const totalCost = (car.amountRepair || 0) + (car.amountTires || 0) + (car.amountDyeing || 0)
+
   return (
-    <Grid
-      container
-      sx={{
-        mt: 8,
-        display: 'flex',
-        justifyContent: 'center',
-        maxWidth: '100%',
-      }}
-    >
-      <Grid
-        item
-        xs={12}
-        md={10}
-        lg={8}
+    <Box>
+      {/* Car Navigation */}
+      {allCars.length > 0 && (
+        <Box sx={{ mt: 3 }}>
+          <CarNavigation currentCarNumber={car.number} allCars={allCars} />
+        </Box>
+      )}
+
+      {/* Main Content - 2 Column Layout */}
+      <Box
         sx={{
-          m: 2,
+          maxWidth: 1200,
+          margin: '0 auto',
+          px: { xs: 2, md: 3 },
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: '1.5fr 1fr' },
+          gap: 5,
+          alignItems: 'start',
         }}
       >
-        <LightGallery
-          allowMediaOverlap
-          toggleThumb
-          closable
-          showZoomInOutIcons
-          plugins={[lgThumbnail, lgZoom]}
-        >
-          {pictures.map((picture, index) => (
-            <a
-              key={index}
-              href={`${config.staticUrl}${picture}` || `${config.url}/assets/truck.jpg`}
-            >
-              <img
-                alt={name}
+        {/* LEFT COLUMN: GALLERY */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* Main Photo */}
+
+          <Box
+            component='img'
+            src={
+              `${config.staticUrl}${car.pictures[activePhotoIndex]}` ||
+              `${config.url}/assets/truck.jpg`
+            }
+            alt={car.name}
+            sx={{
+              width: '100%',
+              height: 450,
+              objectFit: 'cover',
+              borderRadius: 'var(--radius)',
+              boxShadow: 'var(--shadow)',
+              cursor: 'pointer',
+              display: { xs: 'none', sm: 'block' },
+            }}
+          />
+
+          {/* Thumbnails Grid */}
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
+              gap: 1.5,
+            }}
+          >
+            {car.pictures.map((picture, index) => (
+              <Box
+                key={index}
+                component='img'
                 src={`${config.thumbUrl}${picture}?dim=150x150` || `${config.url}/assets/truck.jpg`}
-                style={{ height: '150px', margin: '0px 4px' }}
+                alt={`${car.name} ${index + 1}`}
+                onClick={() => setActivePhotoIndex(index)}
+                sx={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  opacity: activePhotoIndex === index ? 1 : 0.7,
+                  border: activePhotoIndex === index ? '2px solid' : '2px solid transparent',
+                  borderColor: 'primary.main',
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    opacity: 1,
+                  },
+                }}
               />
-            </a>
-          ))}
-        </LightGallery>
-      </Grid>
-      <Grid item xs={12} md={10} lg={8}>
-        <Stack direction='row' spacing={1} justifyContent='space-between' sx={{ mt: 1, mb: 1 }}>
-          <Button
-            size='medium'
-            variant='contained'
-            disabled={!prevCar.id}
-            onClick={() => {
-              navigate(CAR_ROUTE.replace(':carId', prevCar.id))
+            ))}
+          </Box>
+        </Box>
+
+        {/* RIGHT COLUMN: INFO PANEL */}
+        <Box
+          sx={{
+            position: { md: 'sticky' },
+            top: { md: 20 },
+          }}
+        >
+          <Card
+            sx={{
+              borderRadius: 'var(--radius)',
+              boxShadow: 'var(--shadow)',
             }}
           >
-            Попередня тачка {prevCar.id ? `(${prevCar.number})` : ''}
-          </Button>
-          <Button
-            size='medium'
-            variant='contained'
-            disabled={!nextCar.id}
-            onClick={() => {
-              navigate(CAR_ROUTE.replace(':carId', nextCar.id))
-            }}
-          >
-            Наступна тачка {nextCar.id ? `(${nextCar.number})` : ''}
-          </Button>
-        </Stack>
-      </Grid>
-      <Grid item xs={12} md={10} lg={8}>
-        <Card>
-          <CardContent sx={{ flexGrow: 1 }}>
-            <Grid container sx={{ mt: 1 }}>
-              <Grid item xs={12}>
-                <Typography gutterBottom variant='h5' align={'center'}>
-                  {number} {carName || ''}
-                  {status === CarStatus.death && '  RIP 🎗'}
-                </Typography>
-                <Typography className='CarInfoAmount' variant='h5'>
-                  Статус авто:{' '}
-                  <span
-                    style={{
-                      color: StatusColor.get(status),
-                      fontWeight: 'bolder',
-                      textAlign: 'right',
+            <CardContent sx={{ p: 4 }}>
+              {/* Status Pill */}
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  backgroundColor: currentStatus.bgColor,
+                  color: currentStatus.color,
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  mb: 1.5,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    backgroundColor: currentStatus.color,
+                    borderRadius: '50%',
+                  }}
+                />
+                {currentStatus.label}
+              </Box>
+
+              {/* Title */}
+              <Typography
+                variant='h3'
+                sx={{
+                  fontFamily: "'Oswald', sans-serif",
+                  fontSize: '2.5rem',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  mb: 0.5,
+                }}
+              >
+                {car.number} {car.carName || ''}
+                {car.status === CarStatus.death && ' 🎗️'}
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: '1.1rem',
+                  mb: 3,
+                  pb: 3,
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                {car.name}
+              </Typography>
+
+              {/* Specs */}
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: 2.5,
+                  mb: 4,
+                }}
+              >
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      color: 'text.secondary',
+                      mb: 0.5,
                     }}
                   >
-                    {status}
-                  </span>
-                </Typography>
-                <Typography className={'CarInfoAmount'} variant='h5'>
-                  Військова частина:
-                  <Typography className={'Amount'} align={'right'} variant='h5'>
-                    {militaryBase}
+                    Військова частина
                   </Typography>
-                </Typography>
-                <Typography className={'CarInfoAmount'} variant='h5'>
-                  Марка:
-                  <Typography className={'Amount'} align={'right'} variant='h5'>
-                    {name}
+                  <Typography
+                    sx={{
+                      fontSize: '1.1rem',
+                      fontWeight: 600,
+                      color: 'primary.main',
+                    }}
+                  >
+                    {car.militaryBase || '—'}
                   </Typography>
-                </Typography>
-                <Typography className={'CarInfoAmount'} variant='h5'>
-                  {"Ім'я:"}
-                  <Typography className={'Amount'} align={'right'} variant='h5'>
-                    {carName}
+                </Box>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      color: 'text.secondary',
+                      mb: 0.5,
+                    }}
+                  >
+                    Колір
                   </Typography>
-                </Typography>
-                <Typography className={'CarInfoAmount'} variant='h5'>
-                  Ремонт:
-                  <Typography className={'Amount'} align={'right'} variant='h5'>
-                    {amountRepair || '0'} грн.
+                  <Typography
+                    sx={{
+                      fontSize: '1.1rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {car.color || 'Таємний Мартін'}
                   </Typography>
-                </Typography>
-                <Typography className='CarInfoAmount' variant='h5'>
-                  Шини:
-                  <Typography className={'Amount'} variant='h5'>
-                    {amountTires || '0'} грн.
+                </Box>
+              </Box>
+
+              {/* Financial Report */}
+              <Box
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : '#F9FAFB',
+                  borderRadius: '12px',
+                  padding: 2.5,
+                  mb: 4,
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.25 }}>
+                  <Typography sx={{ fontSize: '0.95rem' }}>Ремонт:</Typography>
+                  <Typography sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                    {car.amountRepair || 0} грн
                   </Typography>
-                </Typography>
-                <Typography className='CarInfoAmount' variant='h5'>
-                  Фарбування:
-                  <Typography className={'Amount'} variant='h5'>
-                    {amountDyeing || '0'} грн.
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.25 }}>
+                  <Typography sx={{ fontSize: '0.95rem' }}>Шини:</Typography>
+                  <Typography sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                    {car.amountTires || 0} грн
                   </Typography>
-                </Typography>
-                <Typography className='CarInfoAmount' variant='h5'>
-                  Колір:
-                  <Typography className={'Amount'} variant='h5'>
-                    {color || 'Таємний Мартін'}
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.25 }}>
+                  <Typography sx={{ fontSize: '0.95rem' }}>Фарбування:</Typography>
+                  <Typography sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                    {car.amountDyeing || 0} грн
                   </Typography>
-                </Typography>
-                <Typography variant='h5'>Додаткове обладнання:</Typography>
-                <Typography
-                  className={'CarInfoValue'}
-                  variant='h5'
-                  style={{
-                    whiteSpace: 'pre-wrap',
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    pt: 1.25,
+                    mt: 1.25,
+                    borderTop: (theme) =>
+                      `1px solid ${
+                        theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : '#E5E7EB'
+                      }`,
                   }}
                 >
-                  {addEquip}
-                </Typography>
-              </Grid>
-              {description && (
-                <Grid item xs={12} mt={5}>
-                  <Typography variant='h5'> Історія:</Typography>
+                  <Typography sx={{ fontSize: '0.95rem', fontWeight: 700 }}>
+                    Всього витрачено:
+                  </Typography>
+                  <Typography sx={{ fontSize: '0.95rem', fontWeight: 700 }}>
+                    {totalCost} грн
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Additional Equipment */}
+              {car.addEquip && (
+                <Box sx={{ mb: 4 }}>
                   <Typography
-                    className={'CarInfoValue'}
-                    variant={'h6'}
-                    style={{
-                      whiteSpace: 'pre-wrap',
+                    sx={{
+                      fontFamily: "'Oswald', sans-serif",
+                      fontWeight: 600,
+                      mb: 1,
+                      fontSize: '1.1rem',
                     }}
                   >
-                    {description}
+                    Додаткове обладнання
                   </Typography>
-                </Grid>
+                  <Typography
+                    sx={{
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: 1.6,
+                      color: 'text.secondary',
+                    }}
+                  >
+                    {car.addEquip}
+                  </Typography>
+                </Box>
               )}
-              {sponsors.length > 0 && (
-                <Grid container xs={12} mt={5} spacing={1}>
-                  <Grid item xs={12}>
-                    <Typography variant='h5'> Спонсори:</Typography>
-                  </Grid>
-                  {sponsors.map((el) => (
-                    <Grid key={el} item xs={12} sm={6} md={4}>
-                      <SponsorCard sponsorId={el} showCars={false} />
-                    </Grid>
-                  ))}
-                </Grid>
+
+              {/* Sponsors */}
+              {car.sponsors && car.sponsors.length > 0 && (
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: '0.8rem',
+                      textTransform: 'uppercase',
+                      color: '#B45309',
+                      mb: 1.5,
+                    }}
+                  >
+                    Подяка спонсорам
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 2,
+                    }}
+                  >
+                    {car.sponsors.map((sponsorId) => (
+                      <Box
+                        key={sponsorId}
+                        sx={{
+                          background: '#FFFBEB',
+                          border: '1px solid #FCD34D',
+                          padding: 2.5,
+                          borderRadius: '12px',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: 2,
+                        }}
+                      >
+                        <SponsorCard sponsorId={sponsorId} showCars={false} />
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
               )}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+
+              {/* Story / Description */}
+              {car.description && (
+                <Box sx={{ mb: 4 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "'Oswald', sans-serif",
+                      fontWeight: 600,
+                      mb: 1,
+                      fontSize: '1.1rem',
+                    }}
+                  >
+                    Історія авто
+                  </Typography>
+                  <Typography
+                    sx={{
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: 1.6,
+                      color: 'text.secondary',
+                    }}
+                  >
+                    {car.description}
+                  </Typography>
+                </Box>
+              )}
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
+    </Box>
   )
 }

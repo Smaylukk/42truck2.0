@@ -3,7 +3,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Root } from './Root'
 import { observer } from 'mobx-react-lite'
-import { blue, blueGrey } from '@mui/material/colors'
 
 const App: React.FC = observer(() => {
   const [darkMode, setDarkMode] = useState(false)
@@ -16,7 +15,6 @@ const App: React.FC = observer(() => {
     window.localStorage.setItem('themeMode', themeString(!darkMode))
     setDarkMode((prev) => !prev)
   }
-  const primaryColor = darkMode ? blueGrey[800] : blue[700]
   const themeString = (b: boolean) => (b ? 'dark' : 'light')
   const theme = useMemo(
     () =>
@@ -24,7 +22,45 @@ const App: React.FC = observer(() => {
         palette: {
           mode: themeString(darkMode),
           primary: {
-            main: primaryColor,
+            main: '#005BBB', // Синій - український прапор
+            dark: '#004a99',
+          },
+          secondary: {
+            main: '#FFD500', // Жовтий - український прапор
+          },
+          success: {
+            main: '#10B981',
+          },
+          background: {
+            default: darkMode ? '#1A1A1A' : '#F4F7FA',
+            paper: darkMode ? '#2D2D2D' : '#FFFFFF',
+          },
+        },
+        typography: {
+          fontFamily: "'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+          h1: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 700,
+          },
+          h2: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 700,
+          },
+          h3: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 700,
+          },
+          h4: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 600,
+          },
+          h5: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 600,
+          },
+          h6: {
+            fontFamily: "'Oswald', 'Roboto', sans-serif",
+            fontWeight: 600,
           },
         },
       }),

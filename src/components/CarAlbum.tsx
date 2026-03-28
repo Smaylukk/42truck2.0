@@ -1,11 +1,11 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
-import { Fade, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { Fade } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { CarCard } from './CarCard'
 import Container from '@mui/material/Container'
 import { CarStatus, ICarDocument } from '../utils/interfaces'
 import Box from '@mui/material/Box'
-import { ChartCars } from './ChartCars'
+import { FilterChips } from './FilterChips'
 
 export const CarAlbum: FC<{
   loading: boolean
@@ -15,13 +15,15 @@ export const CarAlbum: FC<{
 
   const [fadeLoader, setFadeLoader] = useState(true)
   const [filterCar, setFilterCar] = useState<ICarDocument[]>([])
-  const handleChange = (event: SelectChangeEvent<number>) => {
-    setStatusFilter(event.target.value as number)
+
+  const handleFilterChange = (filter: number) => {
+    setStatusFilter(filter)
   }
 
   useEffect(() => {
     setFilterCar(cars)
   }, [cars])
+
   useEffect(() => {
     if (statusFilter === 0) {
       setFilterCar(cars)
@@ -39,7 +41,7 @@ export const CarAlbum: FC<{
         }),
       )
     }
-  }, [statusFilter])
+  }, [statusFilter, cars])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -50,7 +52,7 @@ export const CarAlbum: FC<{
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
         <Fade in={fadeLoader}>
           <Box component={'img'} src='/assets/42.png' sx={{ m: 2, height: 40 }} />
         </Fade>
@@ -60,27 +62,9 @@ export const CarAlbum: FC<{
 
   return (
     <Fragment>
-      <ChartCars cars={cars} />
-      <Container sx={{ py: 2 }} maxWidth='lg'>
-        <FormControl fullWidth sx={{ py: 2 }}>
-          <InputLabel id='status-select-label'>Показати зі статусом</InputLabel>
-          <Select
-            labelId='status-select-label'
-            id='status-select'
-            value={statusFilter}
-            label='Age'
-            onChange={handleChange}
-          >
-            <MenuItem value={0}>Всі</MenuItem>
-            <MenuItem value={1}>{CarStatus.find}</MenuItem>
-            <MenuItem value={2}>{CarStatus.buy}</MenuItem>
-            <MenuItem value={3}>{CarStatus.transport}</MenuItem>
-            <MenuItem value={4}>{CarStatus.repair}</MenuItem>
-            <MenuItem value={5}>{CarStatus.done}</MenuItem>
-            <MenuItem value={6}>{CarStatus.death}</MenuItem>
-          </Select>
-        </FormControl>
-        <Grid container spacing={2}>
+      <FilterChips cars={cars} statusFilter={statusFilter} onFilterChange={handleFilterChange} />
+      <Container sx={{ py: 2, px: { xs: 2, sm: 3 } }} maxWidth='lg'>
+        <Grid container spacing={3}>
           {filterCar.map((car) => (
             <CarCard key={car.number} car={car} />
           ))}

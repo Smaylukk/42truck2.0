@@ -17,9 +17,27 @@ export const Footer = () => {
     setOpenAlert(false)
   }
   return (
-    <Container maxWidth='md'>
-      <Paper elevation={8} sx={{ px: 2 }}>
-        <Typography variant='h6' align='center' gutterBottom>
+    <Container maxWidth='md' sx={{ py: 6, px: { xs: 2, sm: 3 } }}>
+      <Paper
+        elevation={0}
+        sx={{
+          px: 4,
+          py: 4,
+          borderRadius: 'var(--radius)',
+          boxShadow: 'var(--shadow)',
+          backgroundColor: 'background.paper',
+        }}
+      >
+        <Typography
+          variant='h5'
+          align='center'
+          gutterBottom
+          sx={{
+            fontFamily: "'Oswald', sans-serif",
+            fontWeight: 700,
+            mb: 3,
+          }}
+        >
           Реквізити
         </Typography>
         <Typography variant='subtitle1' align='left' color='text.secondary' component='div'>

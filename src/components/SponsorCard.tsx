@@ -40,17 +40,20 @@ export const SponsorCard: React.FC<IPropsCardSponsor> = ({ sponsorId, showCars }
     <Card
       sx={{
         height: '100%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
       <CardHeader title={name} />
-      <CardMedia
-        component='img'
-        image={imageUrl ? `${config.staticUrl}${imageUrl}` : '/assets/sponsor.png'}
-        alt='sponsor'
-        style={{ blockSize: 'fit-content', width: 150, height: 150, marginLeft: 10 }}
-      />
+      {imageUrl && (
+        <CardMedia
+          component='img'
+          image={`${config.staticUrl}${imageUrl}`}
+          alt='sponsor'
+          style={{ blockSize: 'fit-content', width: 150, height: 150, marginLeft: 10 }}
+        />
+      )}
       <CardContent>
         <Typography
           variant='body2'
