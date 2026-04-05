@@ -16,7 +16,6 @@ export const Header = () => {
     >
       <Container maxWidth='xl' sx={{ px: { xs: 2, sm: 3 } }}>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-          {/* Logo */}
           <Link
             to={HOME_ROUTE}
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}
@@ -40,7 +39,6 @@ export const Header = () => {
             </Typography>
           </Link>
 
-          {/* Navigation Links */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3 }}>
             <Link to={HOME_ROUTE} style={{ textDecoration: 'none' }}>
               <Typography
@@ -83,7 +81,6 @@ export const Header = () => {
             </Link>
           </Box>
 
-          {/* CTA Button */}
           <Button
             component={Link}
             to={REQUISITES_ROUTE}

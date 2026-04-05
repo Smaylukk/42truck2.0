@@ -39,7 +39,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
   const isRepair = car.status === CarStatus.repair || car.status === CarStatus.queue
   const isDeath = car.status === CarStatus.death
 
-  // Для repair статусу показуємо progress bar
   const totalNeeded = (car.amountRepair || 0) + (car.amountTires || 0) + (car.amountDyeing || 0)
   const progressPercent = isRepair && totalNeeded > 0 ? 50 : 100
 
@@ -61,7 +60,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
           ...(isDeath && { opacity: 0.8, filter: 'grayscale(100%)' }),
         }}
       >
-        {/* Gallery Section with badges */}
         <Box sx={{ position: 'relative' }}>
           <LazyLoadCarImages images={car.pictures} />
 
@@ -123,7 +121,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
         </Box>
 
         <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2.5 }}>
-          {/* Title */}
           <Typography
             variant='h6'
             sx={{
@@ -135,7 +132,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             {car.carName || ''} {isDeath && ' 🎗️'}
           </Typography>
 
-          {/* Model */}
           <Typography
             sx={{
               color: 'text.secondary',
@@ -146,7 +142,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             {car.name}
           </Typography>
 
-          {/* Specs Grid */}
           <Box
             sx={{
               display: 'grid',
@@ -180,7 +175,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
               </Typography>
             </Box>
 
-            {/* Додаткове обладнання */}
             {car.addEquip && (
               <Box sx={{ gridColumn: '1 / -1' }}>
                 <Typography
@@ -192,7 +186,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
               </Box>
             )}
 
-            {/* Спонсор для zombie */}
             {car.carType === CarType.zombie && sponsor && (
               <Box sx={{ gridColumn: '1 / -1' }}>
                 <Typography
@@ -207,7 +200,6 @@ export const RepairCarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             )}
           </Box>
 
-          {/* Progress Bar для repair/queue */}
           {isRepair && (
             <Box sx={{ mb: 0, mt: 'auto' }}>
               <Box

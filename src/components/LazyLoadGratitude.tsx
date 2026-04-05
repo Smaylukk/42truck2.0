@@ -20,7 +20,6 @@ export const LazyLoadGratitude: FC<{ pictures: GratitudePictureList[] }> = ({ pi
         py: 3,
       }}
     >
-      {/* Велика основна картинка */}
       <Box
         component='img'
         src={`${config.staticUrl}${pictures[activeIndex].url}` || `${config.url}/assets/truck.jpg`}
@@ -35,7 +34,6 @@ export const LazyLoadGratitude: FC<{ pictures: GratitudePictureList[] }> = ({ pi
         }}
       />
 
-      {/* Превью внизу */}
       <Box
         sx={{
           display: 'flex',

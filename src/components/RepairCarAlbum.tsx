@@ -72,7 +72,6 @@ export const RepairCarAlbum: FC<{
 
   return (
     <Fragment>
-      {/* Filter Chips */}
       <Box
         sx={{
           display: 'flex',

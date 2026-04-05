@@ -46,7 +46,7 @@ export const FilterChips: React.FC<FilterChipsProps> = ({ cars, statusFilter, on
     <Box
       sx={{
         maxWidth: 1200,
-        margin: '0 auto 30px',
+        margin: '0 auto 10px',
         px: { xs: 2, md: 3 },
         display: 'flex',
         gap: 1.5,

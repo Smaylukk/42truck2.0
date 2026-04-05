@@ -47,7 +47,6 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
     >
       <Container maxWidth='xl' sx={{ px: { xs: 2, sm: 3 } }}>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-          {/* Logo */}
           <Link
             to={HOME_ROUTE}
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}
@@ -60,7 +59,6 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             />
           </Link>
 
-          {/* Desktop Navigation Links */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, alignItems: 'center' }}>
             <Link to={HOME_ROUTE} style={{ textDecoration: 'none' }}>
               <Typography
@@ -116,9 +114,7 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
             </Link>
           </Box>
 
-          {/* Right side: CTA + Theme Switcher + Mobile Menu */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {/* CTA Button - only desktop */}
             <Button
               component={Link}
               to={REQUISITES_ROUTE}
@@ -142,10 +138,8 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               Підтримати проєкт
             </Button>
 
-            {/* Theme Switcher */}
             <ThemeModeSwitch useDark={useDark} onChange={themeChanger} />
 
-            {/* Mobile Menu Button */}
             <IconButton
               size='large'
               aria-label='menu'
@@ -157,7 +151,6 @@ export const DefaultAppBar: React.FC<IThemeProps & IAppBarProps> = ({
               <MenuIcon />
             </IconButton>
 
-            {/* Mobile Menu */}
             <Menu
               anchorEl={anchorElNav}
               anchorOrigin={{

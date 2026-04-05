@@ -15,7 +15,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
   const navigate = useNavigate()
   const [activePhotoIndex] = useState(0)
 
-  // Мапінг статусів на українські назви та кольори
   const statusConfig = {
     [CarStatus.find]: { label: 'Пошук', color: '#6B7280' },
     [CarStatus.buy]: { label: 'Знайшли', color: '#EF4444' },
@@ -34,11 +33,9 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
   const isRepair = car.status === CarStatus.repair
   const isDeath = car.status === CarStatus.death
 
-  // Для repair статусу показуємо progress bar
   const totalNeeded = (car.amountRepair || 0) + (car.amountTires || 0) + (car.amountDyeing || 0)
   const progressPercent = isRepair && totalNeeded > 0 ? 50 : 100
 
-  // Фото з fallback
   const photos = car.pictures && car.pictures.length > 0 ? car.pictures : ['/assets/truck.jpg']
   const activePhoto = photos[activePhotoIndex]
   const photoUrl = activePhoto.startsWith('/') ? activePhoto : `${config.staticUrl}${activePhoto}`
@@ -61,9 +58,7 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
           ...(isDeath && { opacity: 0.8, filter: 'grayscale(100%)' }),
         }}
       >
-        {/* Gallery Section */}
         <Box>
-          {/* Main Image with badges */}
           <Box sx={{ position: 'relative' }}>
             <Box
               component='img'
@@ -77,7 +72,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
               onClick={() => navigate(CAR_ROUTE.replace(':carId', car.id))}
             />
 
-            {/* Status Badge - верхній лівий */}
             <Box
               sx={{
                 position: 'absolute',
@@ -112,7 +106,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
               {currentStatus.label}
             </Box>
 
-            {/* Unit Badge - правий нижній */}
             {car.militaryBase && (
               <Box
                 sx={{
@@ -136,7 +129,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
         </Box>
 
         <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2.5 }}>
-          {/* Title */}
           <Typography
             variant='h6'
             sx={{
@@ -148,7 +140,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             {car.number} {car.carName || ''} {isDeath && ' 🎗️'}
           </Typography>
 
-          {/* Model */}
           <Typography
             sx={{
               color: 'text.secondary',
@@ -159,7 +150,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             {car.name}
           </Typography>
 
-          {/* Specs Grid */}
           <Box
             sx={{
               display: 'grid',
@@ -194,7 +184,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             </Box>
           </Box>
 
-          {/* Progress Bar для repair */}
           {isRepair && (
             <Box sx={{ mb: 2.5 }}>
               <Box
@@ -218,7 +207,6 @@ export const CarCard: FC<{ car: ICarDocument }> = ({ car }) => {
             </Box>
           )}
 
-          {/* Footer Buttons */}
           <Box sx={{ display: 'flex', gap: 1, mt: 'auto' }}>
             <Button
               variant='outlined'

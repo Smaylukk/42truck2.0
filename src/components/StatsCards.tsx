@@ -46,7 +46,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ cars }) => {
   ]
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: '40px auto', px: { xs: 2, md: 3 } }}>
+    <Box sx={{ maxWidth: 1200, margin: '10px auto', px: { xs: 2, md: 3 } }}>
       <Grid container spacing={2.5}>
         {stats.map((stat, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>

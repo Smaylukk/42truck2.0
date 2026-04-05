@@ -23,7 +23,6 @@ export const CarInfo = () => {
         setCar(data)
       })
 
-      // Завантажити всі авто для навігації
       carAPI.getAllActiveCar().then((cars) => {
         setAllCars(cars.map((c) => ({ id: c.id, number: c.number })))
       })
@@ -40,7 +39,6 @@ export const CarInfo = () => {
     )
   }
 
-  // Мапінг статусів
   const statusConfig = {
     [CarStatus.find]: { label: 'Пошук', color: '#6B7280', bgColor: '#F3F4F6' },
     [CarStatus.buy]: { label: 'Знайшли', color: '#EF4444', bgColor: '#FEE2E2' },
@@ -61,14 +59,12 @@ export const CarInfo = () => {
 
   return (
     <Box>
-      {/* Car Navigation */}
       {allCars.length > 0 && (
         <Box sx={{ mt: 3 }}>
           <CarNavigation currentCarNumber={car.number} allCars={allCars} />
         </Box>
       )}
 
-      {/* Main Content - 2 Column Layout */}
       <Box
         sx={{
           maxWidth: 1200,
@@ -80,10 +76,7 @@ export const CarInfo = () => {
           alignItems: 'start',
         }}
       >
-        {/* LEFT COLUMN: GALLERY */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {/* Main Photo */}
-
           <Box
             component='img'
             src={
@@ -102,7 +95,6 @@ export const CarInfo = () => {
             }}
           />
 
-          {/* Thumbnails Grid */}
           <Box
             sx={{
               display: 'grid',
@@ -136,7 +128,6 @@ export const CarInfo = () => {
           </Box>
         </Box>
 
-        {/* RIGHT COLUMN: INFO PANEL */}
         <Box
           sx={{
             position: { md: 'sticky' },
@@ -150,7 +141,6 @@ export const CarInfo = () => {
             }}
           >
             <CardContent sx={{ p: 4 }}>
-              {/* Status Pill */}
               <Box
                 sx={{
                   display: 'inline-flex',
@@ -177,7 +167,6 @@ export const CarInfo = () => {
                 {currentStatus.label}
               </Box>
 
-              {/* Title */}
               <Typography
                 variant='h3'
                 sx={{
@@ -205,7 +194,6 @@ export const CarInfo = () => {
                 {car.name}
               </Typography>
 
-              {/* Specs */}
               <Box
                 sx={{
                   display: 'grid',
@@ -257,7 +245,6 @@ export const CarInfo = () => {
                 </Box>
               </Box>
 
-              {/* Financial Report */}
               <Box
                 sx={{
                   backgroundColor: (theme) =>
@@ -306,7 +293,6 @@ export const CarInfo = () => {
                 </Box>
               </Box>
 
-              {/* Additional Equipment */}
               {car.addEquip && (
                 <Box sx={{ mb: 4 }}>
                   <Typography
@@ -331,7 +317,6 @@ export const CarInfo = () => {
                 </Box>
               )}
 
-              {/* Sponsors */}
               {car.sponsors && car.sponsors.length > 0 && (
                 <Box>
                   <Typography
@@ -371,7 +356,6 @@ export const CarInfo = () => {
                 </Box>
               )}
 
-              {/* Story / Description */}
               {car.description && (
                 <Box sx={{ mb: 4 }}>
                   <Typography

@@ -13,10 +13,8 @@ interface CarNavigationProps {
 export const CarNavigation: React.FC<CarNavigationProps> = ({ currentCarNumber, allCars }) => {
   const navigate = useNavigate()
 
-  // Знайти індекс поточного авто
   const currentIndex = allCars.findIndex((car) => car.number === currentCarNumber)
 
-  // Попереднє та наступне авто
   const prevCar = currentIndex > 0 ? allCars[currentIndex - 1] : null
   const nextCar = currentIndex < allCars.length - 1 ? allCars[currentIndex + 1] : null
 
@@ -31,7 +29,6 @@ export const CarNavigation: React.FC<CarNavigationProps> = ({ currentCarNumber, 
         alignItems: 'center',
       }}
     >
-      {/* Previous Button */}
       {prevCar ? (
         <Button
           onClick={() => navigate(CAR_ROUTE.replace(':carId', prevCar.id))}
@@ -56,10 +53,9 @@ export const CarNavigation: React.FC<CarNavigationProps> = ({ currentCarNumber, 
           <Typography sx={{ fontSize: '0.9rem' }}>{prevCar.number} Попередня</Typography>
         </Button>
       ) : (
-        <Box /> // Empty placeholder
+        <Box />
       )}
 
-      {/* Next Button */}
       {nextCar ? (
         <Button
           onClick={() => navigate(CAR_ROUTE.replace(':carId', nextCar.id))}
